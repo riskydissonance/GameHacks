@@ -2,6 +2,11 @@
 #include "playerent.h"
 #include <tchar.h>
 
+bool toggleNoRecoil(const bool enabled, const uintptr_t baseAddress, const mem::Mem& mem, const logging::Logger& logger) {
+    // TODO
+    return false;
+}
+
 BYTE* originalAmmoDecrementBytes;
 BYTE* originalGrenadeDecrementBytes;
 
@@ -49,7 +54,7 @@ bool toggleInfiniteAmmo(const bool enabled, const uintptr_t baseAddress, const m
 
     if (originalAmmoDecrementBytes)
     {
-        totalSuccess =  totalSuccess && mem.writeMem(ammoDecrementAddress, originalAmmoDecrementBytes, NEAR_JMP_INSTRUCTION_LENGTH, nullptr);
+        totalSuccess =  mem.writeMem(ammoDecrementAddress, originalAmmoDecrementBytes, NEAR_JMP_INSTRUCTION_LENGTH, nullptr);
     }
 
     if (originalGrenadeDecrementBytes)
@@ -147,6 +152,7 @@ void __stdcall injectCheats(const HMODULE hModule) {
 
             toggleInfiniteHealth(cheatsEnabled, baseAddress, *mem, *logger);
             toggleInfiniteAmmo(cheatsEnabled, baseAddress, *mem, *logger);
+            toggleNoRecoil(cheatsEnabled, baseAddress, *mem, *logger);
         }
 
         if (GetAsyncKeyState(VK_END) & 0x01) {

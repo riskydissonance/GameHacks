@@ -1,7 +1,7 @@
 mem::Mem::Mem(native::NativeFunctions& nativeFunctions) : nativeFunctions{ nativeFunctions } {};
 
 mem::Mem::~Mem() {
-    delete& nativeFunctions;
+    delete &nativeFunctions;
 }
 
 bool mem::Mem::readMem(const uintptr_t targetAddress, const size_t length, BYTE* originalBytes) const
@@ -45,7 +45,6 @@ bool mem::Mem::nop(const uintptr_t targetAddress, const size_t length, BYTE* ori
     nativeFunctions.VirtualProtect((LPVOID)targetAddress, length, oldProtect, nullptr);
     return true;
 }
-
 
 bool mem::Mem::hookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress, BYTE* originalBytes) const {
 
