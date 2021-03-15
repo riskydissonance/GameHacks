@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+.vs/
+achacks/Debug/
+achacks/Release/
+Debug/
+Release/
+
+cmake-build-*/
+
+.idea/
