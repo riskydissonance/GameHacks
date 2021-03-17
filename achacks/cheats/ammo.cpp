@@ -24,10 +24,10 @@ bool cheats::Ammo::toggleInfiniteAmmo(const bool enabled) {
         logger.debug_log(_T("[+] Set ammo & grenades to 1337"));
 
         if (!originalAmmoDecrementBytes) {
-            originalAmmoDecrementBytes = new BYTE[NEAR_JMP_INSTRUCTION_LENGTH]{};
+            originalAmmoDecrementBytes = new BYTE[NOP_LENGTH]{};
         }
 
-        if (mem.nop(ammoDecrementAddress, 2, originalAmmoDecrementBytes)) {
+        if (mem.nop(ammoDecrementAddress, NOP_LENGTH, originalAmmoDecrementBytes)) {
             logger.debug_log(_T("[+] Set Infinite Ammo by NOPing decrement"));
         } else {
             logger.debug_log(_T("[-] Unable to set Infinite Ammo by NOPing decrement"));
@@ -35,10 +35,10 @@ bool cheats::Ammo::toggleInfiniteAmmo(const bool enabled) {
         }
 
         if (!originalGrenadeDecrementBytes) {
-            originalGrenadeDecrementBytes = new BYTE[NEAR_JMP_INSTRUCTION_LENGTH]{};
+            originalGrenadeDecrementBytes = new BYTE[NOP_LENGTH]{};
         }
 
-        if (mem.nop(grenadeDecrementAddress, 2, originalGrenadeDecrementBytes)) {
+        if (mem.nop(grenadeDecrementAddress, NOP_LENGTH, originalGrenadeDecrementBytes)) {
             logger.debug_log(_T("[+] Set Infinite Grenades by NOPing decrement"));
             return totalSuccess;
         }
@@ -48,14 +48,11 @@ bool cheats::Ammo::toggleInfiniteAmmo(const bool enabled) {
     }
 
     if (originalAmmoDecrementBytes) {
-        totalSuccess = mem.writeMem(ammoDecrementAddress, originalAmmoDecrementBytes, NEAR_JMP_INSTRUCTION_LENGTH,
-                                    nullptr);
+        totalSuccess = mem.writeMem(ammoDecrementAddress, originalAmmoDecrementBytes, NOP_LENGTH, nullptr);
     }
 
     if (originalGrenadeDecrementBytes) {
-        totalSuccess = totalSuccess &&
-                       mem.writeMem(grenadeDecrementAddress, originalGrenadeDecrementBytes, NEAR_JMP_INSTRUCTION_LENGTH,
-                                    nullptr);
+        totalSuccess = totalSuccess && mem.writeMem(grenadeDecrementAddress, originalGrenadeDecrementBytes, NOP_LENGTH, nullptr);
     }
 
     return totalSuccess;

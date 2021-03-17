@@ -50,8 +50,7 @@ bool mem::Mem::hookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress
     BYTE hookBytes[] = { 0xe8, 0x00, 0x00, 0x00, 0x00 };
 
     // Patch the null bytes with the relative offset from the hook point to InfiniteHealthHook
-    if (!this->writeMem(((uintptr_t) &hookBytes) + 1, (BYTE*) &relativeOffset, NEAR_JUMP_OPERAND_LENGTH,
-                        originalBytes)) {
+    if (!this->writeMem(((uintptr_t) &hookBytes) + 1, (BYTE*) &relativeOffset, NEAR_JUMP_OPERAND_LENGTH, originalBytes)) {
         return false;
     }
 

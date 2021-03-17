@@ -2,6 +2,8 @@
 
 #include "../playerent.h"
 
+static const int NOP_LENGTH = 2;
+
 namespace cheats {
 
     class Ammo {
