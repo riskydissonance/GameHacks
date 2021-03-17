@@ -7,7 +7,8 @@ namespace logging {
     public:
 
         virtual ~Logger() = default;
-        virtual void debug_log(const TCHAR* formatString, ...) const =0;
+
+        virtual void debug_log(const TCHAR* formatString, ...) const = 0;
 
     };
 
@@ -16,6 +17,7 @@ namespace logging {
     public:
 
         DebugLogger() = default;
+
         ~DebugLogger() override = default;
 
         void debug_log(const TCHAR* formatString, ...) const override;

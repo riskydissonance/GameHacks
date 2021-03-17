@@ -10,8 +10,7 @@ bool cheats::Ammo::toggleInfiniteAmmo(const bool enabled) {
 
     bool totalSuccess = true;
 
-    if(enabled)
-    {
+    if (enabled) {
 
         pPlayer->PrimaryAmmo = 1337;
         pPlayer->SecondaryAmmo = 1337;
@@ -24,28 +23,22 @@ bool cheats::Ammo::toggleInfiniteAmmo(const bool enabled) {
 
         logger.debug_log(_T("[+] Set ammo & grenades to 1337"));
 
-        if (!originalAmmoDecrementBytes)
-        {
+        if (!originalAmmoDecrementBytes) {
             originalAmmoDecrementBytes = new BYTE[NEAR_JMP_INSTRUCTION_LENGTH]{};
         }
 
-        if (mem.nop(ammoDecrementAddress, 2, originalAmmoDecrementBytes))
-        {
+        if (mem.nop(ammoDecrementAddress, 2, originalAmmoDecrementBytes)) {
             logger.debug_log(_T("[+] Set Infinite Ammo by NOPing decrement"));
-        }
-        else
-        {
+        } else {
             logger.debug_log(_T("[-] Unable to set Infinite Ammo by NOPing decrement"));
             totalSuccess = false;
         }
 
-        if (!originalGrenadeDecrementBytes)
-        {
+        if (!originalGrenadeDecrementBytes) {
             originalGrenadeDecrementBytes = new BYTE[NEAR_JMP_INSTRUCTION_LENGTH]{};
         }
 
-        if (mem.nop(grenadeDecrementAddress, 2, originalGrenadeDecrementBytes))
-        {
+        if (mem.nop(grenadeDecrementAddress, 2, originalGrenadeDecrementBytes)) {
             logger.debug_log(_T("[+] Set Infinite Grenades by NOPing decrement"));
             return totalSuccess;
         }
@@ -54,14 +47,15 @@ bool cheats::Ammo::toggleInfiniteAmmo(const bool enabled) {
         return false;
     }
 
-    if (originalAmmoDecrementBytes)
-    {
-        totalSuccess =  mem.writeMem(ammoDecrementAddress, originalAmmoDecrementBytes, NEAR_JMP_INSTRUCTION_LENGTH, nullptr);
+    if (originalAmmoDecrementBytes) {
+        totalSuccess = mem.writeMem(ammoDecrementAddress, originalAmmoDecrementBytes, NEAR_JMP_INSTRUCTION_LENGTH,
+                                    nullptr);
     }
 
-    if (originalGrenadeDecrementBytes)
-    {
-        totalSuccess =  totalSuccess && mem.writeMem(grenadeDecrementAddress, originalGrenadeDecrementBytes, NEAR_JMP_INSTRUCTION_LENGTH, nullptr);
+    if (originalGrenadeDecrementBytes) {
+        totalSuccess = totalSuccess &&
+                       mem.writeMem(grenadeDecrementAddress, originalGrenadeDecrementBytes, NEAR_JMP_INSTRUCTION_LENGTH,
+                                    nullptr);
     }
 
     return totalSuccess;

@@ -9,15 +9,15 @@ namespace cheats {
     public:
 
         Ammo(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
-                baseAddress { baseAddress },
-                pPlayer { pPlayer },
-                logger { logger },
-                mem { mem } {
+                baseAddress{ baseAddress },
+                pPlayer{ pPlayer },
+                logger{ logger },
+                mem{ mem } {
             originalAmmoDecrementBytes = nullptr;
             originalGrenadeDecrementBytes = nullptr;
         }
 
-        ~Ammo(){
+        ~Ammo() {
             delete[] originalAmmoDecrementBytes;
             delete[] originalGrenadeDecrementBytes;
         }

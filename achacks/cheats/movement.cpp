@@ -2,7 +2,7 @@
 
 bool cheats::Movement::toggleFly(bool enabled) {
 
-    if(enabled){
+    if (enabled) {
         pPlayer->Fly = 5;
         logger.debug_log(_T("[+] Fly enabled"));
     } else {
@@ -15,7 +15,7 @@ bool cheats::Movement::toggleFly(bool enabled) {
 
 bool cheats::Movement::toggleNoClip(bool enabled) {
 
-    if(enabled){
+    if (enabled) {
         pPlayer->PlayerState = 4; // No clip
         logger.debug_log(_T("[+] Set no clip"));
     } else {

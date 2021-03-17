@@ -4,12 +4,13 @@
 
 namespace native {
 
-    class NativeFunctions
-    {
+    class NativeFunctions {
 
     public:
         virtual ~NativeFunctions() = default;
-        virtual BOOL WINAPI VirtualProtect(_In_  LPVOID lpAddress, _In_  SIZE_T dwSize, _In_  DWORD flNewProtect, _Out_ PDWORD lpFlOldProtect) const = 0;
+
+        virtual BOOL WINAPI VirtualProtect(_In_  LPVOID lpAddress, _In_  SIZE_T dwSize, _In_  DWORD flNewProtect, _Out_
+                                           PDWORD lpFlOldProtect) const = 0;
 
     };
 
@@ -18,9 +19,11 @@ namespace native {
     public:
 
         WinAPI() = default;
+
         ~WinAPI() override = default;
 
-        BOOL WINAPI VirtualProtect(_In_  LPVOID lpAddress, _In_  SIZE_T dwSize, _In_  DWORD flNewProtect, _Out_ PDWORD lpFlOldProtect) const override;
+        BOOL WINAPI VirtualProtect(_In_  LPVOID lpAddress, _In_  SIZE_T dwSize, _In_  DWORD flNewProtect, _Out_
+                                   PDWORD lpFlOldProtect) const override;
 
     };
 
@@ -29,9 +32,11 @@ namespace native {
     public:
 
         Syscalls() = default;
+
         ~Syscalls() override = default;
 
-        BOOL WINAPI VirtualProtect(_In_  LPVOID lpAddress, _In_  SIZE_T dwSize, _In_  DWORD flNewProtect, _Out_ PDWORD lpFlOldProtect) const override;
+        BOOL WINAPI VirtualProtect(_In_  LPVOID lpAddress, _In_  SIZE_T dwSize, _In_  DWORD flNewProtect, _Out_
+                                   PDWORD lpFlOldProtect) const override;
 
     };
 }

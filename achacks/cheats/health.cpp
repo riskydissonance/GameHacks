@@ -7,19 +7,16 @@ bool cheats::Health::toggleInfiniteHealth(const bool enabled) {
     logger.debug_log(_T("[*] Infinite Health Hook address at 0x%x"), hookAddress);
     logger.debug_log(_T("[*] Infinite Health Hook function address at 0x%x"), &infiniteHealthHook);
 
-    if(enabled)
-    {
+    if (enabled) {
         pPlayer->Health = 1337;
         pPlayer->Armour = 1337;
         logger.debug_log(_T("[+] Set health and armour to 1337"));
 
-        if (!originalHealthHookBytes)
-        {
+        if (!originalHealthHookBytes) {
             originalHealthHookBytes = new BYTE[NEAR_JMP_INSTRUCTION_LENGTH]{};
         }
 
-        if (mem.hookFunc(hookAddress, (uintptr_t) &infiniteHealthHook, originalHealthHookBytes))
-        {
+        if (mem.hookFunc(hookAddress, (uintptr_t) &infiniteHealthHook, originalHealthHookBytes)) {
             logger.debug_log(_T("[+] Set Infinite Health hook"));
             return true;
         }
@@ -28,8 +25,7 @@ bool cheats::Health::toggleInfiniteHealth(const bool enabled) {
         return false;
     }
 
-    if (originalHealthHookBytes)
-    {
+    if (originalHealthHookBytes) {
         return mem.writeMem(hookAddress, originalHealthHookBytes, NEAR_JMP_INSTRUCTION_LENGTH, nullptr);
     }
 

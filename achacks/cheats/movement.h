@@ -9,15 +9,16 @@ namespace cheats {
     public:
 
         Movement(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
-                    baseAddress { baseAddress },
-                    pPlayer { pPlayer },
-                    logger { logger },
-                    mem { mem } {
-            }
+                baseAddress{ baseAddress },
+                pPlayer{ pPlayer },
+                logger{ logger },
+                mem{ mem } {
+        }
 
-        ~Movement()= default;
+        ~Movement() = default;
 
         bool toggleFly(bool enabled);
+
         bool toggleNoClip(bool enabled);
 
 

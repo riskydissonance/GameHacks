@@ -15,15 +15,15 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     uintptr_t baseAddress;
 
     __asm {
-        // Get module base address via TEB+0x30 -> PEB+0x8 -> base address
-        mov eax, dword ptr fs:[0x30]
-        mov eax, dword ptr ds:[eax+0x8]
-        mov baseAddress, eax
+    // Get module base address via TEB+0x30 -> PEB+0x8 -> base address
+    mov eax, dword ptr fs:[0x30]
+    mov eax, dword ptr ds:[eax+0x8]
+    mov baseAddress, eax
     }
 
     logger->debug_log(_T("[*] Main module base address at 0x%x, 0x%p"), baseAddress, baseAddress);
 
-    const auto playerAddress = (uintptr_t*)(baseAddress + 0x10F4F4);
+    const auto playerAddress = (uintptr_t*) (baseAddress + 0x10F4F4);
     logger->debug_log(_T("[*] Player at: 0x%x"), playerAddress);
 
     auto pPlayer = reinterpret_cast<playerent*>(*playerAddress);
@@ -36,9 +36,9 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     auto recoilCheat = new cheats::Recoil{ baseAddress, pPlayer, *mem, *logger };
     auto movementCheat = new cheats::Movement{ baseAddress, pPlayer, *mem, *logger };
 
-    while(true){
+    while (true) {
 
-        if(GetAsyncKeyState(VK_INSERT) & 0x01){
+        if (GetAsyncKeyState(VK_INSERT) & 0x01) {
             cheatsEnabled = !cheatsEnabled;
             movementCheat->toggleFly(cheatsEnabled);
             healthCheat->toggleInfiniteHealth(cheatsEnabled);
@@ -46,12 +46,12 @@ void __stdcall cheatLoop(const HMODULE hModule) {
             recoilCheat->toggleNoRecoil(cheatsEnabled);
         }
 
-        if(GetAsyncKeyState(VK_HOME) & 0x01){
+        if (GetAsyncKeyState(VK_HOME) & 0x01) {
             noClipEnabled = !noClipEnabled;
             movementCheat->toggleNoClip(noClipEnabled);
         }
 
-        if(GetAsyncKeyState(VK_END) & 0x01) {
+        if (GetAsyncKeyState(VK_END) & 0x01) {
             movementCheat->toggleNoClip(false);
             movementCheat->toggleFly(false);
             healthCheat->toggleInfiniteHealth(false);

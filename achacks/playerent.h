@@ -2,8 +2,7 @@
 
 #include <cstdint>
 
-struct Vector3
-{
+struct Vector3 {
     float x;
     float y;
     float z;
@@ -11,8 +10,7 @@ struct Vector3
 
 // Created with ReClass.NET 1.2 by KN4CK3R
 
-class playerent
-{
+class playerent {
 public:
     char pad_0000[4]; //0x0000
     Vector3 HeadPosition; //0x0004
@@ -54,14 +52,14 @@ public:
     int8_t ForwardPressed; //0x008E
     int8_t BackwardPressed; //0x008F
     char pad_0090[12]; //0x0090
-    char *N0000052B; //0x009C
+    char* N0000052B; //0x009C
     char pad_00A0[16]; //0x00A0
-    char *N0000047D; //0x00B0
+    char* N0000047D; //0x00B0
     char pad_00B4[52]; //0x00B4
-    void *N00000488; //0x00E8
-    void *N0000049D; //0x00EC
+    void* N00000488; //0x00E8
+    void* N0000049D; //0x00EC
     char pad_00F0[4]; //0x00F0
-    void *N0000044F; //0x00F4
+    void* N0000044F; //0x00F4
     int32_t Health; //0x00F8
     int32_t Armour; //0x00FC
     char pad_0100[12]; //0x0100
