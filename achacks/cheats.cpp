@@ -68,11 +68,14 @@ bool toggleInfiniteAmmo(const bool enabled, const uintptr_t baseAddress, const m
 void __declspec(naked) infiniteHealthHook(){
 
     __asm {
+        // Original code
+        // sub [ebx+0x4], edi
+        // mov eax, edi
         cmp [ebx+0xac], 0 // ebx+0xac is number of shots fired which isn't tracked for bots
         jne end
-        sub [ebx+0x4], edi // Subtract from health
+        mov [ebx+0x4], 0 // Set health to 0
+        ret
     end:
-        mov eax, edi
         ret
     }
 
@@ -135,6 +138,7 @@ void __stdcall injectCheats(const HMODULE hModule) {
     auto pPlayer = reinterpret_cast<playerent*>(*playerAddress);
 
     auto cheatsEnabled = false;
+    auto noClipEnabled = false;
 
     while(true){
 
@@ -144,15 +148,49 @@ void __stdcall injectCheats(const HMODULE hModule) {
             if(cheatsEnabled)
             {
                 pPlayer->Health = 1337;
-                logger->debug_log(_T("[+] Set health to 1337"));
+                pPlayer->Armour = 1337;
+                logger->debug_log(_T("[+] Set health and armour to 1337"));
 
                 pPlayer->PrimaryAmmo = 1337;
-                logger->debug_log(_T("[+] Set ammo to 1337"));
+                pPlayer->SecondaryAmmo = 1337;
+                pPlayer->PrimaryAmmoReserve = 1337;
+                pPlayer->SecondaryAmmoReserve = 1337;
+                pPlayer->AkimboAmmo = 1337;
+                pPlayer->AkimboAmmoReserve = 1337;
+                pPlayer->NumberOfGrenades = 1337;
+                pPlayer->Akimbo = 1;
+
+                logger->debug_log(_T("[+] Set ammo & grenades to 1337"));
+
+                pPlayer->Fly = 5;
+                logger->debug_log(_T("[+] Fly enabled"));
+            }
+            else
+            {
+                pPlayer->Fly = 0;
+                pPlayer->PlayerState = 0;
+                logger->debug_log(_T("[+] Fly & no clip disabled"));
             }
 
             toggleInfiniteHealth(cheatsEnabled, baseAddress, *mem, *logger);
             toggleInfiniteAmmo(cheatsEnabled, baseAddress, *mem, *logger);
             toggleNoRecoil(cheatsEnabled, baseAddress, *mem, *logger);
+        }
+
+        if(GetAsyncKeyState(VK_HOME) & 0x01){
+
+            noClipEnabled = !noClipEnabled;
+            if(noClipEnabled)
+            {
+                pPlayer->PlayerState = 4; // No clip
+                logger->debug_log(_T("[+] Set no clip"));
+            }
+            else
+            {
+                pPlayer->PlayerState = 0; // Default
+                logger->debug_log(_T("[+] Unset no clip"));
+            }
+
         }
 
         if (GetAsyncKeyState(VK_END) & 0x01) {
