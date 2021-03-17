@@ -6,20 +6,15 @@
 #include "cheats/movement.h"
 #include <tchar.h>
 
+extern uintptr_t __cdecl getBaseAddress();
+
 void __stdcall cheatLoop(const HMODULE hModule) {
 
     logging::Logger* logger = new logging::DebugLogger{};
     native::NativeFunctions* nativeFunctions = new native::WinAPI{};
     auto mem = new mem::Mem{ *nativeFunctions };
 
-    uintptr_t baseAddress;
-
-    __asm {
-    // Get module base address via TEB+0x30 -> PEB+0x8 -> base address
-    mov eax, dword ptr fs:[0x30]
-    mov eax, dword ptr ds:[eax+0x8]
-    mov baseAddress, eax
-    }
+    uintptr_t baseAddress = getBaseAddress();
 
     logger->debug_log(_T("[*] Main module base address at 0x%x, 0x%p"), baseAddress, baseAddress);
 

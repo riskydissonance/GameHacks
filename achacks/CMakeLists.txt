@@ -1,7 +1,8 @@
 enable_language(ASM_NASM)
 
 set(asm_sources
-        cheats/health_hook.asm
+        get_base_address_x86.asm
+        cheats/health_hook_x86.asm
         )
 
 set(sources
