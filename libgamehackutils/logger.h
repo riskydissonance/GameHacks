@@ -5,7 +5,6 @@ namespace logging {
     class Logger {
 
     public:
-
         virtual ~Logger() = default;
 
         virtual void debug_log(const TCHAR* formatString, ...) const = 0;
@@ -15,7 +14,6 @@ namespace logging {
     class DebugLogger : public Logger {
 
     public:
-
         DebugLogger() = default;
 
         ~DebugLogger() override = default;

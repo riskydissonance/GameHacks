@@ -7,7 +7,6 @@ namespace mem {
     class Mem {
 
     public:
-
         explicit Mem(native::NativeFunctions& nativeFunctions);
 
         ~Mem();

@@ -1,3 +1,9 @@
+enable_language(ASM_NASM)
+
+set(asm_sources
+        cheats/health_hook.asm
+        )
+
 set(sources
         dllmain.cpp
         cheats.cpp
@@ -12,7 +18,11 @@ set(sources
         cheats/recoil.cpp
         cheats/recoil.h
         cheats/movement.cpp
-        cheats/movement.h)
+        cheats/movement.h
+        ${asm_sources}
+        )
+
+set_source_files_properties(${asm_sources} PROPERTIES LANGUAGE ASM_NASM)
 
 add_library(achacks SHARED
         ${sources}

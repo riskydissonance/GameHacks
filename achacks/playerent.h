@@ -83,7 +83,7 @@ public:
     int32_t PrimaryRecoilVelocity; //0x0178
     char pad_017C[4]; //0x017C
     int32_t GrenadeRecoilVelocity; //0x0180
-    int32_t SeondaryRecoilVelocity; //0x0184
+    int32_t SecondaryRecoilVelocity; //0x0184
     int32_t KnifeSwipes; //0x0188
     int32_t SecondaryShotsFired; //0x018C
     char pad_0190[16]; //0x0190

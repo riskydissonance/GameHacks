@@ -7,7 +7,6 @@ namespace cheats {
     class Recoil {
 
     public:
-
         Recoil(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
                 baseAddress{ baseAddress },
                 pPlayer{ pPlayer },
