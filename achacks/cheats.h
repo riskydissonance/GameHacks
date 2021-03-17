@@ -1,3 +1,3 @@
 #pragma once
 
-void __stdcall injectCheats(HMODULE hModule);
+void __stdcall cheatLoop(HMODULE const hModule);
