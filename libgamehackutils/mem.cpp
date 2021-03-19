@@ -8,6 +8,7 @@ bool mem::Mem::readMem(const uintptr_t targetAddress, const size_t length, BYTE*
 }
 
 bool
+
 mem::Mem::writeMem(const uintptr_t targetAddress, const BYTE* bytes, const size_t length, BYTE* originalBytes) const {
     DWORD oldProtect;
 

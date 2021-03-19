@@ -10,7 +10,8 @@ struct Vector3 {
 
 // Created with ReClass.NET 1.2 by KN4CK3R
 
-class playerent {
+class playerent
+{
 public:
     char pad_0000[4]; //0x0000
     Vector3 HeadPosition; //0x0004
@@ -52,14 +53,14 @@ public:
     int8_t ForwardPressed; //0x008E
     int8_t BackwardPressed; //0x008F
     char pad_0090[12]; //0x0090
-    char* N0000052B; //0x009C
+    char *N0000052B; //0x009C
     char pad_00A0[16]; //0x00A0
-    char* N0000047D; //0x00B0
+    char *N0000047D; //0x00B0
     char pad_00B4[52]; //0x00B4
-    void* N00000488; //0x00E8
-    void* N0000049D; //0x00EC
+    void *N00000488; //0x00E8
+    void *N0000049D; //0x00EC
     char pad_00F0[4]; //0x00F0
-    void* N0000044F; //0x00F4
+    void *N0000044F; //0x00F4
     int32_t Health; //0x00F8
     int32_t Armour; //0x00FC
     char pad_0100[12]; //0x0100
@@ -109,5 +110,41 @@ public:
     char Name[16]; //0x0225
     char pad_0235[259]; //0x0235
     int8_t Fly; //0x0338
-    char pad_0339[1589]; //0x0339
-}; //Size: 0x096E
+    char pad_0339[59]; //0x0339
+    class inventory *Inventory; //0x0374
+    char pad_0378[1852]; //0x0378
+}; //Size: 0x0AB4
+
+class inventory
+{
+public:
+    char pad_0000[8]; //0x0000
+    class playerent *Owner; //0x0008
+    class weapon *CurrentWeapon; //0x000C
+    char pad_0010[1012]; //0x0010
+}; //Size: 0x0404
+
+class weapon
+{
+public:
+    char pad_0000[260]; //0x0000
+    int16_t N00000736; //0x0104
+    int16_t N000008FF; //0x0106
+    int16_t N00000737; //0x0108
+    int16_t N00000901; //0x010A
+    int16_t N00000738; //0x010C
+    int16_t N00000903; //0x010E
+    int16_t N00000739; //0x0110
+    int16_t N00000905; //0x0112
+    int16_t N0000073A; //0x0114
+    int16_t Kickback; //0x0116
+    int16_t MagSize; //0x0118
+    int16_t N00000909; //0x011A
+    int16_t N0000073C; //0x011C
+    int16_t N0000090B; //0x011E
+    int16_t Recoil1; //0x0120
+    int16_t Recoil2; //0x0122
+    int16_t N0000073E; //0x0124
+    int16_t N0000090F; //0x0126
+    int16_t Spread; //0x0128
+}; //Size: 0x012A

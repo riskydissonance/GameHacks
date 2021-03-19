@@ -1,9 +1,18 @@
 enable_language(ASM_NASM)
 
-set(asm_sources
-        get_base_address_x86.asm
-        cheats/health_hook_x86.asm
-        )
+if(CMAKE_ARCH STREQUAL "x64")
+
+    set(asm_sources
+            )
+
+else()
+
+    set(asm_sources
+            get_base_address_x86.asm
+            cheats/health_hook_x86.asm
+            )
+
+endif()
 
 set(sources
         dllmain.cpp

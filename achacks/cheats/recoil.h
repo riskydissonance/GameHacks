@@ -4,6 +4,9 @@
 
 namespace cheats {
 
+    static const uintptr_t RECOIL_NOP_OFFSET = 0x63786;
+    static const int RECOIL_NOP_LENGTH = 10;
+
     class Recoil {
 
     public:
@@ -12,11 +15,11 @@ namespace cheats {
                 pPlayer{ pPlayer },
                 logger{ logger },
                 mem{ mem } {
-            originalRecoilHookBytes = nullptr;
+            originalRecoilNopBytes = nullptr;
         }
 
         ~Recoil() {
-            delete[] originalRecoilHookBytes;
+            delete[] originalRecoilNopBytes;
         }
 
         bool toggleNoRecoil(bool enabled);
@@ -26,7 +29,7 @@ namespace cheats {
         playerent* pPlayer;
         const mem::Mem& mem;
         const logging::Logger& logger;
-        BYTE* originalRecoilHookBytes;
+        BYTE* originalRecoilNopBytes;
 
     };
 }
