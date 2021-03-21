@@ -15,6 +15,7 @@ else()
 endif()
 
 set(sources
+        ${asm_sources}
         dllmain.cpp
         cheats.cpp
         cheats.h
@@ -29,8 +30,8 @@ set(sources
         cheats/recoil.h
         cheats/movement.cpp
         cheats/movement.h
-        ${asm_sources}
-        )
+        cheats/chat.cpp
+        cheats/chat.h)
 
 set_source_files_properties(${asm_sources} PROPERTIES LANGUAGE ASM_NASM)
 

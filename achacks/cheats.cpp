@@ -4,17 +4,19 @@
 #include "cheats/ammo.h"
 #include "cheats/recoil.h"
 #include "cheats/movement.h"
+#include "cheats/chat.h"
 #include <tchar.h>
 
 extern uintptr_t __cdecl getBaseAddress();
 
 void __stdcall cheatLoop(const HMODULE hModule) {
 
-    logging::Logger* logger = new logging::DebugLogger{};
     native::NativeFunctions* nativeFunctions = new native::WinAPI{};
     auto mem = new mem::Mem{ *nativeFunctions };
 
     uintptr_t baseAddress = getBaseAddress();
+
+    logging::Logger* logger = new logging::ChatLogger{ baseAddress };
 
     logger->debug_log(_T("[*] Main module base address at 0x%x, 0x%p"), baseAddress, baseAddress);
 
