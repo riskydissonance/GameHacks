@@ -2,8 +2,11 @@
 
 void triggerBotLoopFunc(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) {
     auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + cheats::TriggerBot::TRACELINE_FUNC_OFFSET);
-    if (traceline()) {
-        pPlayer->AutomaticFiring = 1;
+    auto pTargetedEnt = traceline();
+    if (pTargetedEnt) {
+        if (pTargetedEnt->Team != pPlayer->Team) {
+            pPlayer->AutomaticFiring = 1;
+        }
     } else {
         pPlayer->AutomaticFiring = 0;
     }

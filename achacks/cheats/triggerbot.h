@@ -12,7 +12,7 @@ namespace cheats {
 
         static const uintptr_t TRACELINE_FUNC_OFFSET = 0x0607C0;
 
-        const typedef int (__cdecl* _traceline)();
+        const typedef playerent* (__cdecl* _traceline)();
 
         TriggerBot(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger,
                    std::list<_cheatLoopFunc>& cheatLoopFuncs) :

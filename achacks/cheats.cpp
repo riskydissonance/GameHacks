@@ -74,7 +74,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
         }
 
         if (cheatsEnabled) {
-            for (_cheatLoopFunc cheatLoopFunc : cheatLoopFuncs) {
+            for (auto cheatLoopFunc : cheatLoopFuncs) {
                 if (cheatLoopFunc) {
                     cheatLoopFunc(baseAddress, pPlayer, *mem, *logger);
                 }

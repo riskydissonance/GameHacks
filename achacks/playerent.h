@@ -108,12 +108,13 @@ public:
     char pad_021C[8]; //0x021C
     int8_t AutomaticFiring; //0x0224
     char Name[16]; //0x0225
-    char pad_0235[259]; //0x0235
+    char pad_0235[247]; //0x0235
+    int32_t Team; //0x032C
+    char pad_0330[8]; //0x0330
     int8_t Fly; //0x0338
     char pad_0339[59]; //0x0339
     class inventory *Inventory; //0x0374
-    char pad_0378[1852]; //0x0378
-}; //Size: 0x0AB4
+}; //Size: 0x0378
 
 class inventory
 {
