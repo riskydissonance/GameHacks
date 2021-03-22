@@ -18,7 +18,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     uintptr_t baseAddress = getBaseAddress();
 
     logging::Logger* logger = new logging::ACChatLogger{ baseAddress };
-
+    logger->info_log("[+] Cheat DLL Loaded");
     logger->debug_log(_T("[*] Main module base address at 0x%x, 0x%p"), baseAddress, baseAddress);
 
     const auto playerAddress = (uintptr_t*) (baseAddress + 0x10F4F4);
@@ -41,6 +41,11 @@ void __stdcall cheatLoop(const HMODULE hModule) {
 
         if (GetAsyncKeyState(VK_INSERT) & 0x01) {
             cheatsEnabled = !cheatsEnabled;
+            if (cheatsEnabled) {
+                logger->info_log("[+] Cheats enabled");
+            } else {
+                logger->info_log("[+] Cheats disabled");
+            }
             movementCheat->toggleFly(cheatsEnabled);
             healthCheat->toggleInfiniteHealth(cheatsEnabled);
             ammoCheat->toggleInfiniteAmmo(cheatsEnabled);
@@ -50,6 +55,11 @@ void __stdcall cheatLoop(const HMODULE hModule) {
 
         if (GetAsyncKeyState(VK_HOME) & 0x01) {
             noClipEnabled = !noClipEnabled;
+            if (noClipEnabled) {
+                logger->info_log("[+] NoClip enabled");
+            } else {
+                logger->info_log("[+] NoClip disabled");
+            }
             movementCheat->toggleNoClip(noClipEnabled);
         }
 
@@ -74,7 +84,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
         Sleep(30);
     }
 
-    logger->debug_log(_T("[*] Exiting, cleaning up resources..."));
+    logger->info_log(_T("[*] Disabling cheats and unloading DLL"));
 
     delete triggerBotCheat;
     delete healthCheat;

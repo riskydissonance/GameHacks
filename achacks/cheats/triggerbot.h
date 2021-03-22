@@ -6,7 +6,6 @@
 
 namespace cheats {
 
-
     class TriggerBot {
 
     public:
@@ -22,7 +21,6 @@ namespace cheats {
                 logger{ logger },
                 mem{ mem },
                 cheatLoopFuncs{ cheatLoopFuncs } {
-
         }
 
         ~TriggerBot() = default;
@@ -35,6 +33,7 @@ namespace cheats {
         const mem::Mem& mem;
         const logging::Logger& logger;
         std::list<_cheatLoopFunc>& cheatLoopFuncs;
+
     };
 
 }
