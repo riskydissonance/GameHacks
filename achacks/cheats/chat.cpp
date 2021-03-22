@@ -1,6 +1,6 @@
 #include "chat.h"
 
-void logging::ChatLogger::debug_log(const TCHAR* formatString, ...) const {
+void logging::ACChatLogger::debug_log(const TCHAR* formatString, ...) const {
 
 #ifdef UNICODE
     chatLog("Widechar Chat logger not supported", "");

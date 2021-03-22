@@ -8,15 +8,15 @@ namespace logging {
 
     const typedef int (__cdecl* _chatLog)(char* format, ...);
 
-    class ChatLogger : public Logger {
+    class ACChatLogger : public Logger {
 
     public:
 
-        explicit ChatLogger(const uintptr_t& baseAddress) : baseAddress{ baseAddress } {
+        explicit ACChatLogger(const uintptr_t& baseAddress) : baseAddress{ baseAddress } {
             chatLog = (_chatLog) (baseAddress + CHAT_FUNC_OFFSET);
         }
 
-        ~ChatLogger() override = default;
+        ~ACChatLogger() override = default;
 
         void debug_log(const TCHAR* formatString, ...) const override;
 

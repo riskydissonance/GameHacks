@@ -1,11 +1,12 @@
 #include "cheats.h"
-#include "playerent.h"
 #include "cheats/health.h"
 #include "cheats/ammo.h"
 #include "cheats/recoil.h"
 #include "cheats/movement.h"
 #include "cheats/chat.h"
+#include "cheats/triggerbot.h"
 #include <tchar.h>
+#include <list>
 
 extern uintptr_t __cdecl getBaseAddress();
 
@@ -16,7 +17,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
 
     uintptr_t baseAddress = getBaseAddress();
 
-    logging::Logger* logger = new logging::ChatLogger{ baseAddress };
+    logging::Logger* logger = new logging::ACChatLogger{ baseAddress };
 
     logger->debug_log(_T("[*] Main module base address at 0x%x, 0x%p"), baseAddress, baseAddress);
 
@@ -28,10 +29,13 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     auto cheatsEnabled = false;
     auto noClipEnabled = false;
 
+    std::list<_cheatLoopFunc> cheatLoopFuncs = {};
+
     auto healthCheat = new cheats::Health{ baseAddress, pPlayer, *mem, *logger };
     auto ammoCheat = new cheats::Ammo{ baseAddress, pPlayer, *mem, *logger };
     auto recoilCheat = new cheats::Recoil{ baseAddress, pPlayer, *mem, *logger };
     auto movementCheat = new cheats::Movement{ baseAddress, pPlayer, *mem, *logger };
+    auto triggerBotCheat = new cheats::TriggerBot{ baseAddress, pPlayer, *mem, *logger, cheatLoopFuncs };
 
     while (true) {
 
@@ -41,6 +45,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
             healthCheat->toggleInfiniteHealth(cheatsEnabled);
             ammoCheat->toggleInfiniteAmmo(cheatsEnabled);
             recoilCheat->toggleNoRecoil(cheatsEnabled);
+            triggerBotCheat->toggleTriggerBot(cheatsEnabled);
         }
 
         if (GetAsyncKeyState(VK_HOME) & 0x01) {
@@ -54,13 +59,24 @@ void __stdcall cheatLoop(const HMODULE hModule) {
             healthCheat->toggleInfiniteHealth(false);
             ammoCheat->toggleInfiniteAmmo(false);
             recoilCheat->toggleNoRecoil(false);
+            triggerBotCheat->toggleTriggerBot(false);
             break;
         }
 
-        Sleep(300);
+        if (cheatsEnabled) {
+            for (_cheatLoopFunc cheatLoopFunc : cheatLoopFuncs) {
+                if (cheatLoopFunc) {
+                    cheatLoopFunc(baseAddress, pPlayer, *mem, *logger);
+                }
+            }
+        }
+
+        Sleep(30);
     }
 
     logger->debug_log(_T("[*] Exiting, cleaning up resources..."));
+
+    delete triggerBotCheat;
     delete healthCheat;
     delete ammoCheat;
     delete recoilCheat;

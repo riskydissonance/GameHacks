@@ -11,6 +11,6 @@ Hacks for various games
         * [x] No clip/fly
         * [x] No recoil
         * [x] Write to chat
-        * [ ] Trigger bot
+        * [x] Trigger bot
         * [ ] ESP
         * [ ] Aimbot
