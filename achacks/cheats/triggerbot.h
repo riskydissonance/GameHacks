@@ -1,11 +1,40 @@
 #pragma once
 
 #include "../reclass/playerent.h"
-#include "../cheats.h"
-#include <state/cheatloop.h>
 #include <list>
+#include <state/statemachine.h>
+#include <state/state.h>
 
 namespace cheats {
+
+    class TriggerBotState : public state::State {
+
+    public:
+
+        TriggerBotState(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
+                baseAddress{ baseAddress },
+                pPlayer{ pPlayer },
+                logger{ logger },
+                mem{ mem },
+                name{ _T("TriggerBot") } {
+        }
+
+        ~TriggerBotState() override = default;
+
+        bool condition() const override;
+
+        bool reach() override;
+
+        const TCHAR* get_name() const override;
+
+    private:
+        const TCHAR* name;
+        const uintptr_t baseAddress{};
+        playerent* pPlayer;
+        const mem::Mem& mem;
+        const logging::Logger& logger;
+
+    };
 
     class TriggerBot {
 
@@ -16,15 +45,20 @@ namespace cheats {
         const typedef playerent* (__cdecl* _traceline)();
 
         TriggerBot(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger,
-                   cheatloop::CheatLoop& cheatLoopFuncs) :
+                   state::StateMachine& stateMachine) :
                 baseAddress{ baseAddress },
                 pPlayer{ pPlayer },
                 logger{ logger },
                 mem{ mem },
-                cheatLoopFuncs{ cheatLoopFuncs } {
+                stateMachine{ stateMachine } {
+            triggerBotState = new TriggerBotState(baseAddress, pPlayer, mem, logger);
+
         }
 
-        ~TriggerBot();
+        ~TriggerBot() {
+            toggleTriggerBot(false);
+            delete triggerBotState;
+        }
 
         bool toggleTriggerBot(bool enabled);
 
@@ -33,7 +67,8 @@ namespace cheats {
         playerent* pPlayer;
         const mem::Mem& mem;
         const logging::Logger& logger;
-        cheatloop::CheatLoop& cheatLoopFuncs;
+        state::StateMachine& stateMachine;
+        state::State* triggerBotState;
 
     };
 

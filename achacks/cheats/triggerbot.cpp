@@ -1,29 +1,44 @@
 #include "triggerbot.h"
 
-void triggerBotLoopFunc(const uintptr_t& baseAddress, const uintptr_t* pPlayer, const mem::Mem& mem, const logging::Logger& logger) {
+bool cheats::TriggerBotState::condition() const {
+    auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + cheats::TriggerBot::TRACELINE_FUNC_OFFSET);
+    auto pTargetedEnt = traceline();
+    if (pTargetedEnt) {
+        return false;
+    }
+    return true;
+}
+
+bool cheats::TriggerBotState::reach() {
     auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + cheats::TriggerBot::TRACELINE_FUNC_OFFSET);
     auto pTargetedEnt = traceline();
     if (pTargetedEnt) {
         if (pTargetedEnt->Team != ((playerent*) pPlayer)->Team) {
             ((playerent*) pPlayer)->AutomaticFiring = 1;
+            // TODO find fire weapon function as opposed to toggling state
+            Sleep(1);
+            ((playerent*) pPlayer)->AutomaticFiring = 0;
+        } else {
+            ((playerent*) pPlayer)->AutomaticFiring = 0;
         }
     } else {
         ((playerent*) pPlayer)->AutomaticFiring = 0;
     }
-}
-
-bool cheats::TriggerBot::toggleTriggerBot(const bool enabled) {
-    if (enabled) {
-        cheatLoopFuncs.registerLoopFunc((cheatloop::CheatLoop::_cheatLoopFunc) &triggerBotLoopFunc);
-        logger.debug_log(_T("[+] TriggerBot enabled"));
-    } else {
-        cheatLoopFuncs.unregisterLoopFunc((cheatloop::CheatLoop::_cheatLoopFunc) &triggerBotLoopFunc);
-        pPlayer->AutomaticFiring = 0;
-        logger.debug_log(_T("[+] TriggerBot disabled"));
-    }
     return true;
 }
 
-cheats::TriggerBot::~TriggerBot() {
-    cheatLoopFuncs.unregisterLoopFunc((cheatloop::CheatLoop::_cheatLoopFunc) &triggerBotLoopFunc);
+const TCHAR* cheats::TriggerBotState::get_name() const {
+    return name;
+}
+
+bool cheats::TriggerBot::toggleTriggerBot(bool enabled) {
+    if (enabled) {
+        stateMachine.registerState(triggerBotState);
+        logger.debug_log("Registered TriggerBot state");
+    } else {
+        stateMachine.unregisterState(triggerBotState);
+        pPlayer->AutomaticFiring = 0;
+        logger.debug_log("Unregistered TriggerBot state");
+    }
+    return true;
 }

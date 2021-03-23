@@ -9,7 +9,7 @@ namespace state {
 
     public:
 
-        StateMachine(const logging::Logger& logger) :
+        explicit StateMachine(const logging::Logger& logger) :
                 logger{ logger } {
             states = {};
         }

@@ -15,6 +15,7 @@ void state::StateMachine::incrementState() {
         if (state && !state->condition()) {
             logger.debug_log("State not met, executing reach: %s", state->get_name());
             state->reach();
+            break;
         }
     }
 }

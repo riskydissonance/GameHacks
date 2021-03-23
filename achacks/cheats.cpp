@@ -5,6 +5,7 @@
 #include "cheats/movement.h"
 #include "cheats/triggerbot.h"
 #include "logging/chat.h"
+#include <state/statemachine.h>
 #include <tchar.h>
 
 extern uintptr_t __cdecl getBaseAddress();
@@ -28,13 +29,13 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     auto cheatsEnabled = false;
     auto noClipEnabled = false;
 
-    auto cheatLoopFuncs = new cheatloop::CheatLoop{ baseAddress, (uintptr_t*)pPlayer, *mem, *logger };
+    auto stateMachine = new state::StateMachine{ *logger };
 
     auto healthCheat = new cheats::Health{ baseAddress, pPlayer, *mem, *logger };
     auto ammoCheat = new cheats::Ammo{ baseAddress, pPlayer, *mem, *logger };
     auto recoilCheat = new cheats::Recoil{ baseAddress, pPlayer, *mem, *logger };
     auto movementCheat = new cheats::Movement{ baseAddress, pPlayer, *mem, *logger };
-    auto triggerBotCheat = new cheats::TriggerBot{ baseAddress, pPlayer, *mem, *logger, *cheatLoopFuncs };
+    auto triggerBotCheat = new cheats::TriggerBot{ baseAddress, pPlayer, *mem, *logger, *stateMachine };
 
     while (true) {
 
@@ -73,7 +74,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
         }
 
         if (cheatsEnabled) {
-            cheatLoopFuncs->executeLoopFuncs();
+            stateMachine->incrementState();
         }
 
         Sleep(10);
@@ -86,7 +87,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     delete ammoCheat;
     delete recoilCheat;
     delete movementCheat;
-    delete cheatLoopFuncs;
+    delete stateMachine;
     delete mem;
     delete nativeFunctions;
     logger->debug_log(_T("[*] Done, the logger is the last thing to go... goodbye..."));

@@ -1,10 +1,14 @@
 #include "chat.h"
 
 void logging::ACChatLogger::debug_log(const TCHAR* formatString, ...) const {
+    TCHAR message[1025];
     va_list args;
             va_start (args, formatString);
-    debugLogger->debug_log((char*) formatString, args);
+    // TODO why the fuck does this not work without the wvsprintf
+    wvsprintf(message, formatString, args);
+    debugLogger->debug_log(message);
             va_end(args);
+
 }
 
 void logging::ACChatLogger::info_log(const TCHAR* formatString, ...) const {
