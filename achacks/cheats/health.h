@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../playerent.h"
+#include "../reclass/playerent.h"
 
 extern void __cdecl infiniteHealthHook();
 

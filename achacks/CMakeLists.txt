@@ -20,8 +20,7 @@ set(sources
         cheats.cpp
         cheats.h
         framework.h
-        pch.cpp
-        playerent.h
+        reclass/playerent.h
         cheats/health.cpp
         cheats/health.h
         cheats/ammo.cpp
@@ -30,8 +29,11 @@ set(sources
         cheats/recoil.h
         cheats/movement.cpp
         cheats/movement.h
-        cheats/chat.cpp
-        cheats/chat.h cheats/triggerbot.cpp cheats/triggerbot.h ../libgamehackutils/cheatloop.cpp ../libgamehackutils/cheatloop.h)
+        logging/chat.cpp
+        logging/chat.h
+        cheats/triggerbot.cpp
+        cheats/triggerbot.h
+        )
 
 set_source_files_properties(${asm_sources} PROPERTIES LANGUAGE ASM_NASM)
 

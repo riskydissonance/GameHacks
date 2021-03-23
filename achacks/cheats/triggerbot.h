@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../playerent.h"
+#include "../reclass/playerent.h"
 #include "../cheats.h"
-#include "cheatloop.h"
+#include <state/cheatloop.h>
 #include <list>
 
 namespace cheats {

@@ -3,8 +3,8 @@
 #include "cheats/ammo.h"
 #include "cheats/recoil.h"
 #include "cheats/movement.h"
-#include "cheats/chat.h"
 #include "cheats/triggerbot.h"
+#include "logging/chat.h"
 #include <tchar.h>
 
 extern uintptr_t __cdecl getBaseAddress();

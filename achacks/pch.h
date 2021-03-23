@@ -6,8 +6,8 @@
 #include "framework.h"
 #include <Windows.h>
 #include <tchar.h>
-#include "mem.h"
-#include "logger.h"
-#include "constants.h"
+#include <constants.h>
+#include "mem/mem.h"
+#include "logging/logger.h"
 
 #endif //PCH_H

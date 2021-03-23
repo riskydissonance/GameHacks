@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../playerent.h"
+#include "../reclass/playerent.h"
 
 static const int NOP_LENGTH = 2;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../playerent.h"
+#include "../reclass/playerent.h"
 
 namespace cheats {
 
