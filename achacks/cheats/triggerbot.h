@@ -2,6 +2,7 @@
 
 #include "../playerent.h"
 #include "../cheats.h"
+#include "cheatloop.h"
 #include <list>
 
 namespace cheats {
@@ -15,7 +16,7 @@ namespace cheats {
         const typedef playerent* (__cdecl* _traceline)();
 
         TriggerBot(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger,
-                   std::list<_cheatLoopFunc>& cheatLoopFuncs) :
+                   cheatloop::CheatLoop& cheatLoopFuncs) :
                 baseAddress{ baseAddress },
                 pPlayer{ pPlayer },
                 logger{ logger },
@@ -32,7 +33,7 @@ namespace cheats {
         playerent* pPlayer;
         const mem::Mem& mem;
         const logging::Logger& logger;
-        std::list<_cheatLoopFunc>& cheatLoopFuncs;
+        cheatloop::CheatLoop& cheatLoopFuncs;
 
     };
 

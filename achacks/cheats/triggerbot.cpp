@@ -1,23 +1,23 @@
 #include "triggerbot.h"
 
-void triggerBotLoopFunc(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) {
+void triggerBotLoopFunc(const uintptr_t& baseAddress, const uintptr_t* pPlayer, const mem::Mem& mem, const logging::Logger& logger) {
     auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + cheats::TriggerBot::TRACELINE_FUNC_OFFSET);
     auto pTargetedEnt = traceline();
     if (pTargetedEnt) {
-        if (pTargetedEnt->Team != pPlayer->Team) {
-            pPlayer->AutomaticFiring = 1;
+        if (pTargetedEnt->Team != ((playerent*)pPlayer)->Team) {
+            ((playerent*)pPlayer)->AutomaticFiring = 1;
         }
     } else {
-        pPlayer->AutomaticFiring = 0;
+        ((playerent*)pPlayer)->AutomaticFiring = 0;
     }
 }
 
 bool cheats::TriggerBot::toggleTriggerBot(const bool enabled) {
     if (enabled) {
-        cheatLoopFuncs.push_back((_cheatLoopFunc) &triggerBotLoopFunc);
+        cheatLoopFuncs.registerLoopFunc((cheatloop::CheatLoop::_cheatLoopFunc) &triggerBotLoopFunc);
         logger.debug_log(_T("[+] TriggerBot enabled"));
     } else {
-        cheatLoopFuncs.remove((_cheatLoopFunc) &triggerBotLoopFunc);
+        cheatLoopFuncs.unregisterLoopFunc((cheatloop::CheatLoop::_cheatLoopFunc) &triggerBotLoopFunc);
         pPlayer->AutomaticFiring = 0;
         logger.debug_log(_T("[+] TriggerBot disabled"));
     }

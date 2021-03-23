@@ -6,7 +6,6 @@
 #include "cheats/chat.h"
 #include "cheats/triggerbot.h"
 #include <tchar.h>
-#include <list>
 
 extern uintptr_t __cdecl getBaseAddress();
 
@@ -29,13 +28,13 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     auto cheatsEnabled = false;
     auto noClipEnabled = false;
 
-    std::list<_cheatLoopFunc> cheatLoopFuncs = {};
+    auto cheatLoopFuncs = new cheatloop::CheatLoop{ baseAddress, (uintptr_t*)pPlayer, *mem, *logger };
 
     auto healthCheat = new cheats::Health{ baseAddress, pPlayer, *mem, *logger };
     auto ammoCheat = new cheats::Ammo{ baseAddress, pPlayer, *mem, *logger };
     auto recoilCheat = new cheats::Recoil{ baseAddress, pPlayer, *mem, *logger };
     auto movementCheat = new cheats::Movement{ baseAddress, pPlayer, *mem, *logger };
-    auto triggerBotCheat = new cheats::TriggerBot{ baseAddress, pPlayer, *mem, *logger, cheatLoopFuncs };
+    auto triggerBotCheat = new cheats::TriggerBot{ baseAddress, pPlayer, *mem, *logger, *cheatLoopFuncs };
 
     while (true) {
 
@@ -74,11 +73,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
         }
 
         if (cheatsEnabled) {
-            for (auto cheatLoopFunc : cheatLoopFuncs) {
-                if (cheatLoopFunc) {
-                    cheatLoopFunc(baseAddress, pPlayer, *mem, *logger);
-                }
-            }
+            cheatLoopFuncs->executeLoopFuncs();
         }
 
         Sleep(10);

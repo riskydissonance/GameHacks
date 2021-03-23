@@ -31,7 +31,7 @@ set(sources
         cheats/movement.cpp
         cheats/movement.h
         cheats/chat.cpp
-        cheats/chat.h cheats/triggerbot.cpp cheats/triggerbot.h)
+        cheats/chat.h cheats/triggerbot.cpp cheats/triggerbot.h ../libgamehackutils/cheatloop.cpp ../libgamehackutils/cheatloop.h)
 
 set_source_files_properties(${asm_sources} PROPERTIES LANGUAGE ASM_NASM)
 
