@@ -81,7 +81,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
             }
         }
 
-        Sleep(30);
+        Sleep(10);
     }
 
     logger->info_log(_T("[*] Disabling cheats and unloading DLL"));
