@@ -1,6 +1,7 @@
 #include "triggerbot.h"
 
 bool cheats::TriggerBotState::condition() const {
+    // TODO make last targetedEnt a variable
     auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + cheats::TriggerBot::TRACELINE_FUNC_OFFSET);
     auto pTargetedEnt = traceline();
     if (pTargetedEnt) {
