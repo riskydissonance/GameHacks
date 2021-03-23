@@ -24,7 +24,7 @@ namespace cheats {
                 cheatLoopFuncs{ cheatLoopFuncs } {
         }
 
-        ~TriggerBot() = default;
+        ~TriggerBot();
 
         bool toggleTriggerBot(bool enabled);
 

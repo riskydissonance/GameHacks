@@ -4,11 +4,11 @@ void triggerBotLoopFunc(const uintptr_t& baseAddress, const uintptr_t* pPlayer, 
     auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + cheats::TriggerBot::TRACELINE_FUNC_OFFSET);
     auto pTargetedEnt = traceline();
     if (pTargetedEnt) {
-        if (pTargetedEnt->Team != ((playerent*)pPlayer)->Team) {
-            ((playerent*)pPlayer)->AutomaticFiring = 1;
+        if (pTargetedEnt->Team != ((playerent*) pPlayer)->Team) {
+            ((playerent*) pPlayer)->AutomaticFiring = 1;
         }
     } else {
-        ((playerent*)pPlayer)->AutomaticFiring = 0;
+        ((playerent*) pPlayer)->AutomaticFiring = 0;
     }
 }
 
@@ -22,4 +22,8 @@ bool cheats::TriggerBot::toggleTriggerBot(const bool enabled) {
         logger.debug_log(_T("[+] TriggerBot disabled"));
     }
     return true;
+}
+
+cheats::TriggerBot::~TriggerBot() {
+    cheatLoopFuncs.unregisterLoopFunc((cheatloop::CheatLoop::_cheatLoopFunc) &triggerBotLoopFunc);
 }

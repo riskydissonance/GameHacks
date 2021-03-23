@@ -86,6 +86,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     delete ammoCheat;
     delete recoilCheat;
     delete movementCheat;
+    delete cheatLoopFuncs;
     delete mem;
     delete nativeFunctions;
     logger->debug_log(_T("[*] Done, the logger is the last thing to go... goodbye..."));
