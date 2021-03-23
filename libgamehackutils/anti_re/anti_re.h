@@ -6,5 +6,4 @@ namespace anti_re {
        return false;
    }
 
-
 }
