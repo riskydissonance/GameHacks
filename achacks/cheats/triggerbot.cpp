@@ -10,13 +10,13 @@ bool cheats::TriggerBotState::condition() {
 
 bool cheats::TriggerBotState::reach() {
     if (lastTracelineResult) {
-        if (lastTracelineResult->Team != ((playerent*) pPlayer)->Team) {
-            ((playerent*) pPlayer)->AutomaticFiring = 1;
+        if (lastTracelineResult->Team != pPlayer->Team) {
+            pPlayer->AutomaticFiring = 1;
             // TODO find fire weapon function as opposed to toggling state
             Sleep(1);
-            ((playerent*) pPlayer)->AutomaticFiring = 0;
+            pPlayer->AutomaticFiring = 0;
         } else {
-            ((playerent*) pPlayer)->AutomaticFiring = 0;
+            pPlayer->AutomaticFiring = 0;
         }
     }
     return true;
