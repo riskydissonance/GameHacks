@@ -1,5 +1,3 @@
-#include "native.h"
-
 // TODO delegate to syswhispers
 BOOL native::Syscalls::VirtualProtect(LPVOID lpAddress, SIZE_T dwSize, DWORD flNewProtect, PDWORD lpFlOldProtect) const {
     return false;
@@ -15,9 +13,8 @@ native::Syscalls::CreateThread(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T 
     return nullptr;
 }
 
-HANDLE native::Syscalls::CreateRemoteThread(HANDLE hProcess, LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize,
-                                            LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter, DWORD dwCreationFlags,
-                                            LPDWORD lpThreadId) const {
+HANDLE native::Syscalls::CreateRemoteThread(HANDLE hProcess, LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress,
+                                            LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId) const {
     return nullptr;
 }
 
@@ -29,7 +26,7 @@ LPVOID native::Syscalls::VirtualAllocEx(HANDLE hProcess, LPVOID lpAddress, SIZE_
     return nullptr;
 }
 
-BOOL native::Syscalls::VirtualProtectEx(HANDLE hProcess, LPVOID lpAddress, SIZE_T dwSize, DWORD flNewProtect, PDWORD lpflOldProtect) const {
+BOOL native::Syscalls::VirtualProtectEx(HANDLE hProcess, LPVOID lpAddress, SIZE_T dwSize, DWORD flNewProtect, PDWORD lpFlOldProtect) const {
     return false;
 }
 
@@ -37,7 +34,7 @@ BOOL native::Syscalls::WriteProcessMemory(HANDLE hProcess, LPVOID lpBaseAddress,
     return false;
 }
 
-BOOL native::Syscalls::EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, DWORD cb, LPDWORD lpcbNeeded) const {
+BOOL native::Syscalls::EnumProcessModules(HANDLE hProcess, HMODULE* lphModule, DWORD cb, LPDWORD lpCbNeeded) const {
     return false;
 }
 
@@ -45,11 +42,11 @@ DWORD native::Syscalls::GetModuleBaseName(HANDLE hProcess, HMODULE hModule, LPST
     return 0;
 }
 
-BOOL native::Syscalls::EnumProcesses(DWORD* lpidProcess, DWORD cb, LPDWORD lpcbNeeded) const {
+BOOL native::Syscalls::EnumProcesses(DWORD* lpIdProcess, DWORD cb, LPDWORD lpCbNeeded) const {
     return false;
 }
 
-BOOL native::Syscalls::QueryFullProcessImageName(HANDLE hProcess, DWORD dwFlags, LPSTR lpExeName, PDWORD lpdwSize) const {
+BOOL native::Syscalls::QueryFullProcessImageName(HANDLE hProcess, DWORD dwFlags, LPSTR lpExeName, PDWORD lpDwSize) const {
     return false;
 }
 

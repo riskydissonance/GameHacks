@@ -9,8 +9,6 @@ set(sources
         native/syscalls.cpp
         native/winapi.cpp
         anti_re/anti_re.h
-        state/cheatloop.cpp
-        state/cheatloop.h
         state/statemachine.cpp
         state/statemachine.h
         state/state.h)
