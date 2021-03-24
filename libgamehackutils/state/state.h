@@ -8,7 +8,7 @@ namespace state {
 
         virtual ~State() = default;
 
-        [[nodiscard]] virtual bool condition() const = 0;
+        [[nodiscard]] virtual bool condition() = 0;
 
         virtual bool reach() = 0;
 

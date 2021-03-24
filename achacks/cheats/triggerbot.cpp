@@ -1,20 +1,16 @@
 #include "triggerbot.h"
 
-bool cheats::TriggerBotState::condition() const {
-    // TODO make last targetedEnt a variable
-    auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + TRACELINE_FUNC_OFFSET);
-    auto pTargetedEnt = traceline();
-    if (pTargetedEnt) {
+bool cheats::TriggerBotState::condition() {
+    lastTracelineResult = traceline();
+    if (lastTracelineResult) {
         return false;
     }
     return true;
 }
 
 bool cheats::TriggerBotState::reach() {
-    auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + TRACELINE_FUNC_OFFSET);
-    auto pTargetedEnt = traceline();
-    if (pTargetedEnt) {
-        if (pTargetedEnt->Team != ((playerent*) pPlayer)->Team) {
+    if (lastTracelineResult) {
+        if (lastTracelineResult->Team != ((playerent*) pPlayer)->Team) {
             ((playerent*) pPlayer)->AutomaticFiring = 1;
             // TODO find fire weapon function as opposed to toggling state
             Sleep(1);
@@ -22,8 +18,6 @@ bool cheats::TriggerBotState::reach() {
         } else {
             ((playerent*) pPlayer)->AutomaticFiring = 0;
         }
-    } else {
-        ((playerent*) pPlayer)->AutomaticFiring = 0;
     }
     return true;
 }
