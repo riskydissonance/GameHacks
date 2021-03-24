@@ -1,15 +1,31 @@
-mem::Mem::Mem(native::NativeFunctions& nativeFunctions) : nativeFunctions{ nativeFunctions } { };
+template<typename T>
+T mem::Mem::readMem(uintptr_t targetAddress) const {
+    T value;
+    memcpy(&value, targetAddress, sizeof(T));
+    return value;
+}
 
-mem::Mem::~Mem() = default;
+template<typename T>
+T mem::Mem::writeMem(uintptr_t targetAddress, T newValue) const {
 
-bool mem::Mem::readMem(const uintptr_t targetAddress, const size_t length, BYTE* originalBytes) const {
-    memcpy(originalBytes, (void*) targetAddress, length);;
+    T originalValue = readMem(targetAddress);
+
+    DWORD oldProtect;
+    if (!nativeFunctions.VirtualProtect((LPVOID) targetAddress, sizeof(T), PAGE_EXECUTE_READWRITE, &oldProtect)) {
+        return false;
+    }
+
+    memcpy(targetAddress, &newValue, sizeof(T));
+
+    nativeFunctions.VirtualProtect((LPVOID) targetAddress, sizeof(T), oldProtect, nullptr);
+}
+
+bool mem::Mem::readMem(const uintptr_t targetAddress, const size_t length, BYTE* readBytes) const {
+    memcpy(readBytes, (void*) targetAddress, length);;
     return true;
 }
 
-bool
-
-mem::Mem::writeMem(const uintptr_t targetAddress, const BYTE* bytes, const size_t length, BYTE* originalBytes) const {
+bool mem::Mem::writeMem(const uintptr_t targetAddress, const BYTE* bytes, const size_t length, BYTE* originalBytes) const {
     DWORD oldProtect;
 
     if (!nativeFunctions.VirtualProtect((LPVOID) targetAddress, length, PAGE_EXECUTE_READWRITE, &oldProtect)) {

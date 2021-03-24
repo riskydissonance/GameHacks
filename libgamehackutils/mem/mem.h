@@ -7,11 +7,17 @@ namespace mem {
     class Mem {
 
     public:
-        explicit Mem(native::NativeFunctions& nativeFunctions);
+        explicit Mem(native::NativeFunctions& nativeFunctions) : nativeFunctions{ nativeFunctions } { };
 
-        ~Mem();
+        ~Mem() = default;
 
-        bool readMem(uintptr_t targetAddress, size_t length, BYTE* originalBytes) const;
+        template<typename T>
+        T readMem(uintptr_t targetAddress) const;
+
+        template<typename T>
+        T writeMem(uintptr_t targetAddress, T newValue) const;
+
+        bool readMem(uintptr_t targetAddress, size_t length, BYTE* readBytes) const;
 
         bool writeMem(uintptr_t targetAddress, const BYTE* bytes, size_t length, BYTE* originalBytes) const;
 
