@@ -13,7 +13,7 @@ void state::StateMachine::unregisterState(State* state) {
 void state::StateMachine::incrementState() {
     for (auto state : states) {
         if (state) {
-            if(state->condition()){
+            if (state->condition()) {
                 state->reached();
             } else {
                 state->reach();

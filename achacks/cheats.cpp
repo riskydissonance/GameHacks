@@ -3,7 +3,7 @@
 #include "cheats/ammo.h"
 #include "cheats/recoil.h"
 #include "cheats/movement.h"
-#include "cheats/triggerbot.h"
+#include "cheats/states/triggerbot.h"
 #include "logging/chat.h"
 #include <tchar.h>
 
@@ -20,8 +20,6 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     logger->info_log(_T("[+] Cheat DLL Loaded"));
     logger->debug_log(_T("[*] Main module base address at 0x%p"), baseAddress);
 
-    int x = 1000;
-
     const auto playerAddress = (uintptr_t*) (baseAddress + 0x10F4F4);
     logger->debug_log(_T("[*] Player at: 0x%p"), playerAddress);
 
@@ -36,7 +34,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     auto ammoCheat = new cheats::Ammo{ baseAddress, pPlayer, *mem, *logger };
     auto recoilCheat = new cheats::Recoil{ baseAddress, pPlayer, *mem, *logger };
     auto movementCheat = new cheats::Movement{ baseAddress, pPlayer, *mem, *logger };
-    auto triggerBotCheat = new cheats::TriggerBot{ baseAddress, pPlayer, *mem, *logger, *stateMachine };
+    auto triggerBotCheat = new cheats::states::TriggerBot{ baseAddress, pPlayer, *mem, *logger, *stateMachine };
 
     while (true) {
 
@@ -51,6 +49,8 @@ void __stdcall cheatLoop(const HMODULE hModule) {
             healthCheat->toggleInfiniteHealth(cheatsEnabled);
             ammoCheat->toggleInfiniteAmmo(cheatsEnabled);
             recoilCheat->toggleNoRecoil(cheatsEnabled);
+
+            // Build state machine, in order of priority
             triggerBotCheat->toggleTriggerBot(cheatsEnabled);
         }
 

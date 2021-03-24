@@ -1,18 +1,17 @@
 #pragma once
 
-#include "../reclass/playerent.h"
+#include "../../reclass/playerent.h"
 #include <list>
 #include <state/statemachine.h>
 #include <state/state.h>
 
-namespace cheats {
+namespace cheats::states {
 
     class TriggerBotState : public state::State {
 
     public:
 
         typedef playerent* (__cdecl* _traceline)();
-        typedef void (__cdecl* _fireWeapon)(bool firing);
 
         TriggerBotState(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
                 baseAddress{ baseAddress },
@@ -21,9 +20,8 @@ namespace cheats {
                 mem{ mem },
                 name{ _T("TriggerBot") } {
             traceline = (_traceline) (baseAddress + TRACELINE_FUNC_OFFSET);
-            fireWeapon = (_fireWeapon) (baseAddress + FIRE_WEAPON_OFFSET);
             lastTracelineResult = nullptr;
-            wasFiring = false;
+            lastStateWasFiring = false;
         }
 
         ~TriggerBotState() override = default;
@@ -38,14 +36,13 @@ namespace cheats {
 
     private:
         const TCHAR* name;
-        const uintptr_t baseAddress{};
+        const uintptr_t baseAddress;
         playerent* pPlayer;
         const mem::Mem& mem;
         const logging::Logger& logger;
         playerent* lastTracelineResult;
         _traceline traceline;
-        _fireWeapon fireWeapon;
-        bool wasFiring;
+        bool lastStateWasFiring;
 
     };
 

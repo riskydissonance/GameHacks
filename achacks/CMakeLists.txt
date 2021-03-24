@@ -31,8 +31,8 @@ set(sources
         cheats/movement.h
         logging/chat.cpp
         logging/chat.h
-        cheats/triggerbot.cpp
-        cheats/triggerbot.h
+        cheats/states/triggerbot.cpp
+        cheats/states/triggerbot.h
         offsets.h)
 
 set_source_files_properties(${asm_sources} PROPERTIES LANGUAGE ASM_NASM)

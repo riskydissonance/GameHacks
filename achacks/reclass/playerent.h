@@ -106,7 +106,7 @@ public:
     int32_t DistanceTravelled; //0x0214
     int32_t TotalDamage; //0x0218
     char pad_021C[8]; //0x021C
-    int8_t AutomaticFiring; //0x0224
+    int8_t Firing; //0x0224
     char Name[16]; //0x0225
     char pad_0235[247]; //0x0235
     int32_t Team; //0x032C
