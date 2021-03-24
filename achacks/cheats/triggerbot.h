@@ -12,6 +12,7 @@ namespace cheats {
     public:
 
         typedef playerent* (__cdecl* _traceline)();
+        typedef void (__cdecl* _fireWeapon)(bool firing);
 
         TriggerBotState(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
                 baseAddress{ baseAddress },
@@ -20,7 +21,9 @@ namespace cheats {
                 mem{ mem },
                 name{ _T("TriggerBot") } {
             traceline = (_traceline) (baseAddress + TRACELINE_FUNC_OFFSET);
+            fireWeapon = (_fireWeapon) (baseAddress + FIRE_WEAPON_OFFSET);
             lastTracelineResult = nullptr;
+            wasFiring = false;
         }
 
         ~TriggerBotState() override = default;
@@ -29,7 +32,9 @@ namespace cheats {
 
         bool reach() override;
 
-        [[nodiscard]] const TCHAR* get_name() const override;
+        bool reached() override;
+
+        [[nodiscard]] const TCHAR* getName() const override;
 
     private:
         const TCHAR* name;
@@ -39,6 +44,8 @@ namespace cheats {
         const logging::Logger& logger;
         playerent* lastTracelineResult;
         _traceline traceline;
+        _fireWeapon fireWeapon;
+        bool wasFiring;
 
     };
 
