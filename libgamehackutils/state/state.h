@@ -8,11 +8,11 @@ namespace state {
 
         virtual ~State() = default;
 
-        virtual bool condition() const = 0;
+        [[nodiscard]] virtual bool condition() const = 0;
 
         virtual bool reach() = 0;
 
-        virtual const TCHAR* get_name() const = 0;
+        [[nodiscard]] virtual const TCHAR* get_name() const = 0;
 
     };
 

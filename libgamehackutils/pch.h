@@ -11,6 +11,7 @@
 #include "framework.h"
 #include <Windows.h>
 #include <tchar.h>
+#include <psapi.h>
 #include "mem/mem.h"
 #include "logging/logger.h"
 #include "constants.h"

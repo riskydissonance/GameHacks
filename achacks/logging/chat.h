@@ -4,8 +4,6 @@
 
 namespace logging {
 
-    const uintptr_t CHAT_FUNC_OFFSET = 0x6B060;
-
     const typedef int (__cdecl* _chatLog)(char* format, ...);
 
     class ACChatLogger : public Logger {

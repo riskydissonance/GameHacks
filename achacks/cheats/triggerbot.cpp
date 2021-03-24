@@ -2,7 +2,7 @@
 
 bool cheats::TriggerBotState::condition() const {
     // TODO make last targetedEnt a variable
-    auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + cheats::TriggerBot::TRACELINE_FUNC_OFFSET);
+    auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + TRACELINE_FUNC_OFFSET);
     auto pTargetedEnt = traceline();
     if (pTargetedEnt) {
         return false;
@@ -11,7 +11,7 @@ bool cheats::TriggerBotState::condition() const {
 }
 
 bool cheats::TriggerBotState::reach() {
-    auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + cheats::TriggerBot::TRACELINE_FUNC_OFFSET);
+    auto traceline = (cheats::TriggerBot::_traceline) (baseAddress + TRACELINE_FUNC_OFFSET);
     auto pTargetedEnt = traceline();
     if (pTargetedEnt) {
         if (pTargetedEnt->Team != ((playerent*) pPlayer)->Team) {

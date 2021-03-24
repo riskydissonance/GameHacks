@@ -21,11 +21,11 @@ namespace cheats {
 
         ~TriggerBotState() override = default;
 
-        bool condition() const override;
+        [[nodiscard]] bool condition() const override;
 
         bool reach() override;
 
-        const TCHAR* get_name() const override;
+        [[nodiscard]] const TCHAR* get_name() const override;
 
     private:
         const TCHAR* name;
@@ -40,7 +40,6 @@ namespace cheats {
 
     public:
 
-        static const uintptr_t TRACELINE_FUNC_OFFSET = 0x0607C0;
 
         const typedef playerent* (__cdecl* _traceline)();
 

@@ -5,7 +5,6 @@
 #include "cheats/movement.h"
 #include "cheats/triggerbot.h"
 #include "logging/chat.h"
-#include <state/statemachine.h>
 #include <tchar.h>
 
 extern uintptr_t __cdecl getBaseAddress();

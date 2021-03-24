@@ -33,7 +33,7 @@ set(sources
         logging/chat.h
         cheats/triggerbot.cpp
         cheats/triggerbot.h
-        )
+        offsets.h)
 
 set_source_files_properties(${asm_sources} PROPERTIES LANGUAGE ASM_NASM)
 

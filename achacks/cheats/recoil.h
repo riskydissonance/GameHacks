@@ -4,7 +4,6 @@
 
 namespace cheats {
 
-    static const uintptr_t RECOIL_NOP_OFFSET = 0x63786;
     static const int RECOIL_NOP_LENGTH = 10;
 
     class Recoil {
