@@ -18,11 +18,13 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     uintptr_t baseAddress = getBaseAddress();
 
     logging::Logger* logger = new logging::ACChatLogger{ baseAddress };
-    logger->info_log("[+] Cheat DLL Loaded");
-    logger->debug_log(_T("[*] Main module base address at 0x%x, 0x%p"), baseAddress, baseAddress);
+    logger->info_log(_T("[+] Cheat DLL Loaded"));
+    logger->debug_log(_T("[*] Main module base address at 0x%p"), baseAddress);
+
+    int x = 1000;
 
     const auto playerAddress = (uintptr_t*) (baseAddress + 0x10F4F4);
-    logger->debug_log(_T("[*] Player at: 0x%x"), playerAddress);
+    logger->debug_log(_T("[*] Player at: 0x%p"), playerAddress);
 
     auto pPlayer = reinterpret_cast<playerent*>(*playerAddress);
 
@@ -42,9 +44,9 @@ void __stdcall cheatLoop(const HMODULE hModule) {
         if (GetAsyncKeyState(VK_INSERT) & 0x01) {
             cheatsEnabled = !cheatsEnabled;
             if (cheatsEnabled) {
-                logger->info_log("[+] Cheats enabled");
+                logger->info_log(_T("[+] Cheats enabled"));
             } else {
-                logger->info_log("[+] Cheats disabled");
+                logger->info_log(_T("[+] Cheats disabled"));
             }
             movementCheat->toggleFly(cheatsEnabled);
             healthCheat->toggleInfiniteHealth(cheatsEnabled);
@@ -56,9 +58,9 @@ void __stdcall cheatLoop(const HMODULE hModule) {
         if (GetAsyncKeyState(VK_HOME) & 0x01) {
             noClipEnabled = !noClipEnabled;
             if (noClipEnabled) {
-                logger->info_log("[+] NoClip enabled");
+                logger->info_log(_T("[+] NoClip enabled"));
             } else {
-                logger->info_log("[+] NoClip disabled");
+                logger->info_log(_T("[+] NoClip disabled"));
             }
             movementCheat->toggleNoClip(noClipEnabled);
         }

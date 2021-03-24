@@ -4,8 +4,8 @@ bool cheats::Health::toggleInfiniteHealth(const bool enabled) {
 
     const auto hookAddress = baseAddress + 0x29d1f;
 
-    logger.debug_log(_T("[*] Infinite Health Hook address at 0x%x"), hookAddress);
-    logger.debug_log(_T("[*] Infinite Health Hook function address at 0x%x"), &infiniteHealthHook);
+    logger.debug_log(_T("[*] Infinite Health Hook address at 0x%p"), hookAddress);
+    logger.debug_log(_T("[*] Infinite Health Hook function address at 0x%p"), &infiniteHealthHook);
 
     if (enabled) {
         pPlayer->Health = 1337;

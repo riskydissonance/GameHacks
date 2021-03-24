@@ -35,11 +35,11 @@ const TCHAR* cheats::TriggerBotState::get_name() const {
 bool cheats::TriggerBot::toggleTriggerBot(bool enabled) {
     if (enabled) {
         stateMachine.registerState(triggerBotState);
-        logger.debug_log("Registered TriggerBot state");
+        logger.debug_log(_T("Registered TriggerBot state"));
     } else {
         stateMachine.unregisterState(triggerBotState);
         pPlayer->AutomaticFiring = 0;
-        logger.debug_log("Unregistered TriggerBot state");
+        logger.debug_log(_T("Unregistered TriggerBot state"));
     }
     return true;
 }
