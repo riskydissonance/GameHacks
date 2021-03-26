@@ -3,6 +3,7 @@
 #include "cheats/ammo.h"
 #include "cheats/recoil.h"
 #include "cheats/movement.h"
+#include "cheats/radar.h"
 #include "cheats/states/triggerbot.h"
 #include "logging/chat.h"
 #include <tchar.h>
@@ -20,7 +21,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     logger->info_log(_T("[+] Cheat DLL Loaded"));
     logger->debug_log(_T("[*] Main module base address at 0x%p"), baseAddress);
 
-    const auto playerAddress = (uintptr_t*) (baseAddress + 0x10F4F4);
+    const auto playerAddress = (uintptr_t*) (baseAddress + PLAYER_POINTER_OFFSET);
     logger->debug_log(_T("[*] Player at: 0x%p"), playerAddress);
 
     auto pPlayer = reinterpret_cast<playerent*>(*playerAddress);
@@ -34,6 +35,8 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     auto ammoCheat = new cheats::Ammo{ baseAddress, pPlayer, *mem, *logger };
     auto recoilCheat = new cheats::Recoil{ baseAddress, pPlayer, *mem, *logger };
     auto movementCheat = new cheats::Movement{ baseAddress, pPlayer, *mem, *logger };
+    auto radarESPCheat = new cheats::RadarESP{ baseAddress, pPlayer, *mem, *logger };
+
     auto triggerBotCheat = new cheats::states::TriggerBot{ baseAddress, pPlayer, *mem, *logger, *stateMachine };
 
     while (true) {
@@ -49,6 +52,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
             healthCheat->toggleInfiniteHealth(cheatsEnabled);
             ammoCheat->toggleInfiniteAmmo(cheatsEnabled);
             recoilCheat->toggleNoRecoil(cheatsEnabled);
+            radarESPCheat->toggleRadarESP(cheatsEnabled);
 
             // Build state machine, in order of priority
             triggerBotCheat->toggleTriggerBot(cheatsEnabled);
@@ -71,6 +75,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
             ammoCheat->toggleInfiniteAmmo(false);
             recoilCheat->toggleNoRecoil(false);
             triggerBotCheat->toggleTriggerBot(false);
+            radarESPCheat->toggleRadarESP(false);
             break;
         }
 
@@ -84,6 +89,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     logger->info_log(_T("[*] Disabling cheats and unloading DLL"));
 
     delete triggerBotCheat;
+    delete radarESPCheat;
     delete healthCheat;
     delete ammoCheat;
     delete recoilCheat;

@@ -2,10 +2,10 @@
 
 bool cheats::Ammo::toggleInfiniteAmmo(const bool enabled) {
 
-    const auto ammoDecrementAddress = baseAddress + 0x637e9;
+    const auto ammoDecrementAddress = baseAddress + AMMO_NOP_OFFSET;
     logger.debug_log(_T("[*] Ammo decrement address at 0x%p"), ammoDecrementAddress);
 
-    const auto grenadeDecrementAddress = baseAddress + 0x63378;
+    const auto grenadeDecrementAddress = baseAddress + GRENADE_NOP_OFFSET;
     logger.debug_log(_T("[*] Grenade decrement address at 0x%p"), grenadeDecrementAddress);
 
     bool totalSuccess = true;

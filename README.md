@@ -12,5 +12,6 @@ Hacks for various games
         * [x] No recoil
         * [x] Write to chat
         * [x] Trigger bot
+        * [x] Radar hack
         * [ ] ESP
         * [ ] Aimbot

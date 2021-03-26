@@ -2,7 +2,7 @@
 
 bool cheats::Health::toggleInfiniteHealth(const bool enabled) {
 
-    const auto hookAddress = baseAddress + 0x29d1f;
+    const auto hookAddress = baseAddress + HEALTH_HOOK_OFFSET;
 
     logger.debug_log(_T("[*] Infinite Health Hook address at 0x%p"), hookAddress);
     logger.debug_log(_T("[*] Infinite Health Hook function address at 0x%p"), &infiniteHealthHook);
