@@ -76,8 +76,12 @@ void __stdcall cheatLoop(const HMODULE hModule) {
         }
 
         if (GetAsyncKeyState(VK_F2) & 0x01) {
-            logger->info_log(_T("[+] Enabling aimbot"));
             aimbotEnabled = !aimbotEnabled;
+            if (aimbotEnabled) {
+                logger->info_log(_T("[+] Aimbot enabled"));
+            } else {
+                logger->info_log(_T("[+] Aimbot disabled"));
+            }
             aimBotCheat->toggleAimBot(aimbotEnabled);
         }
 
