@@ -13,5 +13,5 @@ Hacks for various games
         * [x] Write to chat
         * [x] Trigger bot
         * [x] Radar hack
-        * [ ] Aimbot
+        * [x] Aimbot
         * [ ] ESP
