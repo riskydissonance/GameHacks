@@ -26,10 +26,6 @@ bool cheats::states::TriggerBotState::reached() {
     return true;
 }
 
-const TCHAR* cheats::states::TriggerBotState::getName() const {
-    return name;
-}
-
 bool cheats::states::TriggerBot::toggleTriggerBot(bool enabled) {
     if (enabled) {
         stateMachine.registerState(triggerBotState);

@@ -20,7 +20,6 @@ namespace cheats {
 
         bool toggleNoClip(bool enabled);
 
-
     private:
         const uintptr_t baseAddress;
         playerent* pPlayer;

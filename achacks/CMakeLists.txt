@@ -19,6 +19,8 @@ set(sources
         dllmain.cpp
         cheats.cpp
         cheats.h
+        constants.h
+        offsets.h
         framework.h
         reclass/playerent.h
         cheats/health.cpp
@@ -33,7 +35,10 @@ set(sources
         logging/chat.h
         cheats/states/triggerbot.cpp
         cheats/states/triggerbot.h
-        offsets.h cheats/radar.cpp cheats/radar.h)
+        cheats/radar.cpp
+        cheats/radar.h
+        cheats/states/aimbot.cpp
+        cheats/states/aimbot.h)
 
 set_source_files_properties(${asm_sources} PROPERTIES LANGUAGE ASM_NASM)
 

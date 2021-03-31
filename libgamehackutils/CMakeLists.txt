@@ -11,7 +11,9 @@ set(sources
         anti_re/anti_re.h
         state/statemachine.cpp
         state/statemachine.h
-        state/state.h)
+        state/state.h
+        maths/vector.h
+        maths/geometry.h)
 
 add_library(libgamehackutils STATIC
         ${sources}

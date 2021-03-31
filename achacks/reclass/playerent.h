@@ -1,17 +1,12 @@
 #pragma once
 
+#include <maths/vector.h>
 #include <cstdint>
 
-struct Vector3 {
-    float x;
-    float y;
-    float z;
-};
 
 // Created with ReClass.NET 1.2 by KN4CK3R
 
-class playerent
-{
+class playerent {
 public:
     char pad_0000[4]; //0x0000
     Vector3 HeadPosition; //0x0004
@@ -53,14 +48,14 @@ public:
     int8_t ForwardPressed; //0x008E
     int8_t BackwardPressed; //0x008F
     char pad_0090[12]; //0x0090
-    char *N0000052B; //0x009C
+    char* N0000052B; //0x009C
     char pad_00A0[16]; //0x00A0
-    char *N0000047D; //0x00B0
+    char* N0000047D; //0x00B0
     char pad_00B4[52]; //0x00B4
-    void *N00000488; //0x00E8
-    void *N0000049D; //0x00EC
+    void* N00000488; //0x00E8
+    void* N0000049D; //0x00EC
     char pad_00F0[4]; //0x00F0
-    void *N0000044F; //0x00F4
+    void* N0000044F; //0x00F4
     int32_t Health; //0x00F8
     int32_t Armour; //0x00FC
     char pad_0100[12]; //0x0100
@@ -113,20 +108,18 @@ public:
     char pad_0330[8]; //0x0330
     int8_t Fly; //0x0338
     char pad_0339[59]; //0x0339
-    class inventory *Inventory; //0x0374
+    class inventory* Inventory; //0x0374
 }; //Size: 0x0378
 
-class inventory
-{
+class inventory {
 public:
     char pad_0000[8]; //0x0000
-    class playerent *Owner; //0x0008
-    class weapon *CurrentWeapon; //0x000C
+    class playerent* Owner; //0x0008
+    class weapon* CurrentWeapon; //0x000C
     char pad_0010[1012]; //0x0010
 }; //Size: 0x0404
 
-class weapon
-{
+class weapon {
 public:
     char pad_0000[260]; //0x0000
     int16_t N00000736; //0x0104

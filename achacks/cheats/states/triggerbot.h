@@ -13,18 +13,20 @@ namespace cheats::states {
 
         typedef playerent* (__cdecl* _traceline)();
 
-        TriggerBotState(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
-                baseAddress{ baseAddress },
-                pPlayer{ pPlayer },
-                logger{ logger },
-                mem{ mem },
-                name{ _T("TriggerBot") } {
+        TriggerBotState(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem,
+                        const logging::Logger& logger) : State(_T("TriggerBot")),
+                                                         baseAddress{ baseAddress },
+                                                         pPlayer{ pPlayer },
+                                                         logger{ logger },
+                                                         mem{ mem } {
             traceline = (_traceline) (baseAddress + TRACELINE_FUNC_OFFSET);
             lastTracelineResult = nullptr;
             lastStateWasFiring = false;
         }
 
-        ~TriggerBotState() override = default;
+        ~TriggerBotState() {
+            delete lastTracelineResult;
+        };
 
         [[nodiscard]] bool condition() override;
 
@@ -32,10 +34,7 @@ namespace cheats::states {
 
         bool reached() override;
 
-        [[nodiscard]] const TCHAR* getName() const override;
-
     private:
-        const TCHAR* name;
         const uintptr_t baseAddress;
         playerent* pPlayer;
         const mem::Mem& mem;
@@ -58,7 +57,6 @@ namespace cheats::states {
                 mem{ mem },
                 stateMachine{ stateMachine } {
             triggerBotState = new TriggerBotState(baseAddress, pPlayer, mem, logger);
-
         }
 
         ~TriggerBot() {
@@ -74,7 +72,7 @@ namespace cheats::states {
         const mem::Mem& mem;
         const logging::Logger& logger;
         state::StateMachine& stateMachine;
-        state::State* triggerBotState;
+        TriggerBotState* triggerBotState;
 
     };
 

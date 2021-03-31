@@ -6,7 +6,12 @@ namespace state {
 
     public:
 
-        virtual ~State() = default;
+        State(const TCHAR* name) : name { name }{};
+
+        ~State() {
+            // TODO why does it error with Exception 0x80000003
+            //delete name;
+        };
 
         [[nodiscard]] virtual bool condition() = 0;
 
@@ -14,7 +19,13 @@ namespace state {
 
         virtual bool reached() = 0;
 
-        [[nodiscard]] virtual const TCHAR* getName() const = 0;
+        [[nodiscard]] const TCHAR* getName() const {
+            return name;
+        }
+
+
+    private:
+        const TCHAR* name;
 
     };
 
