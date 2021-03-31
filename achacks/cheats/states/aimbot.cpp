@@ -10,10 +10,14 @@
 
 bool cheats::states::AimBotState::condition() {
 
-    float closestDistance{};
+    if(!(GetAsyncKeyState(VK_LBUTTON) & 01000'0000)){
+        return true;
+    }
+
+    float closestDistance{}; // TODO should also check if visible
     int closestIndex = -1;
 
-    for (int i = 1; i <= 1; i++) { // TODO how to determine end of ent list
+    for (int i = 1; i <= 29; i++) { // TODO how to determine end of ent list
 
         auto pEnt = *(entityList + i);
         if (!pEnt)
@@ -26,7 +30,6 @@ bool cheats::states::AimBotState::condition() {
 
         float distance = getDistance(LimitedVector3{ pEnt->HeadPosition.x, pEnt->HeadPosition.y, pEnt->HeadPosition.z },
                                      LimitedVector3{ pPlayer->HeadPosition.x, pPlayer->HeadPosition.y, pPlayer->HeadPosition.z });
-
 
         if (closestDistance == 0 || distance < closestDistance) {
             closestDistance = distance;
@@ -41,6 +44,8 @@ bool cheats::states::AimBotState::condition() {
 
     facingToNearestEnemy = getFacingToVector(LimitedVector3{ pClosestEnt->HeadPosition.x, pClosestEnt->HeadPosition.y, pClosestEnt->HeadPosition.z },
                                              LimitedVector3{ pPlayer->HeadPosition.x, pPlayer->HeadPosition.y, pPlayer->HeadPosition.z });
+
+    facingToNearestEnemy.x += 270;
 
     if (LimitedVector3{ pPlayer->Facing.x, pPlayer->Facing.y, pPlayer->Facing.z } == facingToNearestEnemy) {
         return true;
