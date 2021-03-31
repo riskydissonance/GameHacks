@@ -19,7 +19,6 @@ set(sources
         dllmain.cpp
         cheats.cpp
         cheats.h
-        constants.h
         offsets.h
         framework.h
         reclass/playerent.h

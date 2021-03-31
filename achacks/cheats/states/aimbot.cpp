@@ -1,5 +1,4 @@
 #include "aimbot.h"
-#include "../../constants.h"
 #include <maths/geometry.h>
 
 /*
@@ -10,22 +9,22 @@
 
 bool cheats::states::AimBotState::condition() {
 
-    if(!(GetAsyncKeyState(VK_LBUTTON) & 01000'0000)){
+    if(!(GetAsyncKeyState(VK_LBUTTON) & 01000'0000)){ // Is mouse left click held down
         return true;
     }
 
     float closestDistance{}; // TODO should also check if visible
     int closestIndex = -1;
+    int* pOtherEntitiesCount = (int*)(baseAddress + OTHER_ENTS_COUNT_OFFSET);
 
-    for (int i = 1; i <= 29; i++) { // TODO how to determine end of ent list
+    for (int i = 1; i <= *pOtherEntitiesCount; i++) {
 
         auto pEnt = *(entityList + i);
-        if (!pEnt)
-            break;
-        if (pEnt == pPlayer ||
+        if (!pEnt ||
+            pEnt == pPlayer ||
             pEnt->Team == pPlayer->Team ||
-            pEnt->Health < 1 ||
-            pPlayer->Health < 1)
+            pEnt->PlayerState != 0||
+            pPlayer->PlayerState != 0)
             continue;
 
         float distance = getDistance(LimitedVector3{ pEnt->HeadPosition.x, pEnt->HeadPosition.y, pEnt->HeadPosition.z },

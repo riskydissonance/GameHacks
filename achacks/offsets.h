@@ -9,3 +9,4 @@ static const uintptr_t GRENADE_NOP_OFFSET = 0x63378;
 static const uintptr_t HEALTH_HOOK_OFFSET = 0x29d1f;
 static const uintptr_t PLAYER_POINTER_OFFSET = 0x10F4F4;
 static const uintptr_t ENTITY_LIST_OFFSET = 0x10f4f8;
+static const uintptr_t OTHER_ENTS_COUNT_OFFSET = 0x110D98;
