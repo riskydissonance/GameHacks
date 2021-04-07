@@ -26,10 +26,10 @@ void __stdcall cheatLoop(const HMODULE hModule) {
 
     const auto playerAddress = (uintptr_t*) (baseAddress + PLAYER_POINTER_OFFSET);
 
-    auto pPlayer = reinterpret_cast<playerent*>(*playerAddress);
+    auto pPlayer = (playerent*)(*playerAddress);
 
     while (!pPlayer) {
-        pPlayer = reinterpret_cast<playerent*>(*playerAddress);
+        pPlayer = (playerent*)(*playerAddress);
         Sleep(1000);
     }
 

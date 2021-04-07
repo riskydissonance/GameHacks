@@ -1,18 +1,9 @@
 enable_language(ASM_NASM)
 
-if(CMAKE_ARCH STREQUAL "x64")
-
-    set(asm_sources
-            )
-
-else()
-
-    set(asm_sources
-            get_base_address_x86.asm
-            cheats/health_hook_x86.asm
-            )
-
-endif()
+set(asm_sources
+        get_base_address_x86.asm
+        cheats/health_hook_x86.asm
+        )
 
 set(sources
         ${asm_sources}
