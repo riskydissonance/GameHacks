@@ -4,7 +4,6 @@ struct Vector3 {
     float x;
     float y;
     float z;
-
 };
 
 struct LimitedVector3 {
@@ -22,7 +21,7 @@ struct LimitedVector3 {
     float zULimit = NO_LIMIT;
     float zLLimit = NO_LIMIT;
 
-    static float checkAgainstLimits(float val, float uLimit, float lLimit){
+    static float checkAgainstLimits(float val, float uLimit, float lLimit) {
         if (val != NO_LIMIT && val > val)
             return uLimit;
         if (lLimit != NO_LIMIT && val < lLimit)
@@ -43,14 +42,14 @@ struct LimitedVector3 {
     };
 
     LimitedVector3(float x,
-            float y,
-            float z,
-            float xULimit,
-            float xLLimit,
-            float yULimit,
-            float yLLimit,
-            float zULimit,
-            float zLLimit) {
+                   float y,
+                   float z,
+                   float xULimit,
+                   float xLLimit,
+                   float yULimit,
+                   float yLLimit,
+                   float zULimit,
+                   float zLLimit) {
         this->xULimit = xULimit;
         this->xLLimit = xLLimit;
         this->yULimit = yULimit;
@@ -62,19 +61,19 @@ struct LimitedVector3 {
         this->z = checkAgainstLimits(z, zULimit, zLLimit);
     }
 
-    LimitedVector3 operator+(LimitedVector3 add) const {
+    LimitedVector3 operator+(const LimitedVector3 add) const {
         return LimitedVector3{ x + add.x, y + add.y, z + add.z, xULimit, xLLimit, yULimit, yLLimit, zULimit, zLLimit };
     };
 
-    LimitedVector3 operator-(LimitedVector3 add) const {
+    LimitedVector3 operator-(const LimitedVector3 add) const {
         return LimitedVector3{ x - add.x, y - add.y, z - add.z, xULimit, xLLimit, yULimit, yLLimit, zULimit, zLLimit };
     };
 
-    LimitedVector3 operator*(LimitedVector3 add) const {
+    LimitedVector3 operator*(const LimitedVector3 add) const {
         return LimitedVector3{ x * add.x, y * add.y, z * add.z, xULimit, xLLimit, yULimit, yLLimit, zULimit, zLLimit };
     };
 
-    bool operator==(LimitedVector3 compare) const {
+    bool operator==(const LimitedVector3 compare) const {
         return this->x == compare.x && this->y == compare.y && this->z == compare.z;
     };
 

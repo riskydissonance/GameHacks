@@ -1,5 +1,6 @@
 #include <tchar.h>
 #include <cheat/cheatlist.h>
+#include <utils/utils.h>
 #include "cheats.h"
 #include "cheats/health.h"
 #include "cheats/ammo.h"
@@ -10,8 +11,6 @@
 #include "cheats/states/triggerbot.h"
 #include "logging/chat.h"
 #include "cheats/states/aimbot.h"
-
-extern uintptr_t __cdecl getBaseAddress();
 
 void __stdcall cheatLoop(const HMODULE hModule) {
 

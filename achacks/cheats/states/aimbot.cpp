@@ -48,7 +48,9 @@ bool cheats::states::AimBotState::condition() {
     facingToNearestEnemy = getFacingToVector(LimitedVector3{ pClosestEnt->HeadPosition.x, pClosestEnt->HeadPosition.y, pClosestEnt->HeadPosition.z },
                                              LimitedVector3{ pPlayer->HeadPosition.x, pPlayer->HeadPosition.y, pPlayer->HeadPosition.z });
 
+    // Adjust angles for Assault Cube
     facingToNearestEnemy.x += 270;
+    facingToNearestEnemy.y = -facingToNearestEnemy.y;
 
     if (LimitedVector3{ pPlayer->Facing.x, pPlayer->Facing.y, pPlayer->Facing.z } == facingToNearestEnemy) {
         return true;

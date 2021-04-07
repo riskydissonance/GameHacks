@@ -29,7 +29,9 @@ namespace cheat {
         /**
          * Registers the cheat in the cheat list.
          *
-         * @param cheat - the cheat to register. Resource cleanup of the cheat is handled by this cheat list class.
+         * Resource cleanup of the cheat is handled by this cheat list class.
+         *
+         * @param cheat - the cheat to register.
          */
         void registerCheat(KEY, Cheat* cheat);
 

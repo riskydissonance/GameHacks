@@ -1,7 +1,7 @@
 #pragma once
 
-#include "vector.h"
 #include <cmath>
+#include "vector.h"
 
 static const float PI = 3.14159265359;
 
@@ -17,7 +17,7 @@ static LimitedVector3 getFacingToVector(const LimitedVector3& source, const Limi
 
     float distance = getDistance(source, target);
 
-    pitch = -asin((target.z - source.z) / distance) * (180 / PI);
+    pitch = asin((target.z - source.z) / distance) * (180 / PI);
     yaw = atan2((target.y - source.y), (target.x - source.x)) * (180 / PI);
 
     return LimitedVector3{ yaw, pitch, 0, source.xULimit > target.xULimit ? source.xULimit : target.xULimit,

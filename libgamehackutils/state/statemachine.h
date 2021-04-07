@@ -29,7 +29,9 @@ namespace state {
         /**
          * Registers the state in the state machine.
          *
-         * @param state - the state to register. Resource cleanup of the state is handled by this state machine class.
+         * Resource cleanup of the state is handled by this state machine class.
+         *
+         * @param state - the state to register.
          */
         void registerState(KEY, State* state);
 
