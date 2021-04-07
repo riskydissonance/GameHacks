@@ -25,13 +25,3 @@ bool cheats::states::TriggerBotState::reached() {
     }
     return true;
 }
-
-bool cheats::states::TriggerBot::toggleTriggerBot(bool enabled) {
-    if (enabled) {
-        stateMachine.registerState(triggerBotState);
-    } else {
-        stateMachine.unregisterState(triggerBotState);
-        pPlayer->Firing = 0;
-    }
-    return true;
-}

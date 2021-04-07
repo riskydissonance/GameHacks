@@ -1,6 +1,6 @@
 #include "radar.h"
 
-bool cheats::RadarESP::toggleRadarESP(const bool enabled) {
+bool cheat::RadarESP::toggle(const bool enabled) {
 
     const static auto radarNopAddress = baseAddress + RADAR_NOP_OFFSET;
 

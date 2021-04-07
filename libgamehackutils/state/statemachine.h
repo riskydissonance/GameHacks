@@ -1,7 +1,8 @@
 #pragma once
 
-#include "state.h"
 #include <list>
+#include <map>
+#include "state.h"
 
 namespace state {
 
@@ -9,22 +10,32 @@ namespace state {
 
     public:
 
+        typedef BYTE KEY;
+
         explicit StateMachine(const logging::Logger& logger) :
                 logger{ logger } {
-            states = {};
+            keyStateMap = {};
+            keyEnabledMap = {};
         }
 
-        ~StateMachine() = default;
+        ~StateMachine() {
+            for (auto& keyStates : keyStateMap) {
+                for (auto state : keyStates.second) {
+                    delete state;
+                }
+            }
+        };
 
-        void registerState(State* state);
-
-        void unregisterState(State* state);
+        void registerState(KEY, State* state);
 
         void incrementState();
 
+        void toggle(KEY toggleKey);
+
     private:
         const logging::Logger& logger;
-        std::list<State*> states;
+        std::map<KEY, std::list<State*>> keyStateMap;
+        std::map<KEY, bool> keyEnabledMap;
 
     };
 

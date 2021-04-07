@@ -1,33 +1,29 @@
 #pragma once
 
+#include <cheat/cheat.h>
 #include "../reclass/playerent.h"
 
 extern void __cdecl infiniteHealthHook();
 
-namespace cheats {
+namespace cheat {
 
-    class Health {
+    class Health : public Cheat {
 
     public:
         Health(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
-                baseAddress{ baseAddress },
-                pPlayer{ pPlayer },
-                logger{ logger },
-                mem{ mem } {
+                Cheat(_T("Infinite Health"), baseAddress, mem, logger),
+                pPlayer{ pPlayer } {
             originalHealthHookBytes = nullptr;
         }
 
-        ~Health() {
+        ~Health() override {
             delete[] originalHealthHookBytes;
         }
 
-        bool toggleInfiniteHealth(bool enabled);
+        bool toggle(bool enabled) override;
 
     private:
-        const uintptr_t baseAddress;
         playerent* pPlayer;
-        const mem::Mem& mem;
-        const logging::Logger& logger;
         BYTE* originalHealthHookBytes;
 
     };

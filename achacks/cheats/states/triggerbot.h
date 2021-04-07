@@ -13,18 +13,18 @@ namespace cheats::states {
 
         typedef playerent* (__cdecl* _traceline)();
 
-        TriggerBotState(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem,
-                        const logging::Logger& logger) : State(_T("TriggerBot")),
-                                                         baseAddress{ baseAddress },
-                                                         pPlayer{ pPlayer },
-                                                         logger{ logger },
-                                                         mem{ mem } {
+        TriggerBotState(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
+                State(_T("TriggerBot")),
+                baseAddress{ baseAddress },
+                pPlayer{ pPlayer },
+                logger{ logger },
+                mem{ mem } {
             traceline = (_traceline) (baseAddress + TRACELINE_FUNC_OFFSET);
             lastTracelineResult = nullptr;
             lastStateWasFiring = false;
         }
 
-        ~TriggerBotState() {
+        ~TriggerBotState() override {
             delete lastTracelineResult;
         };
 
@@ -42,37 +42,6 @@ namespace cheats::states {
         playerent* lastTracelineResult;
         _traceline traceline;
         bool lastStateWasFiring;
-
-    };
-
-    class TriggerBot {
-
-    public:
-
-        TriggerBot(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger,
-                   state::StateMachine& stateMachine) :
-                baseAddress{ baseAddress },
-                pPlayer{ pPlayer },
-                logger{ logger },
-                mem{ mem },
-                stateMachine{ stateMachine } {
-            triggerBotState = new TriggerBotState(baseAddress, pPlayer, mem, logger);
-        }
-
-        ~TriggerBot() {
-            toggleTriggerBot(false);
-            delete triggerBotState;
-        }
-
-        bool toggleTriggerBot(bool enabled);
-
-    private:
-        const uintptr_t baseAddress;
-        playerent* pPlayer;
-        const mem::Mem& mem;
-        const logging::Logger& logger;
-        state::StateMachine& stateMachine;
-        TriggerBotState* triggerBotState;
 
     };
 

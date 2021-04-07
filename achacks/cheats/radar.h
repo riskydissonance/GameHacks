@@ -1,35 +1,31 @@
 #pragma once
 
+#include <cheat/cheat.h>
 #include "../reclass/playerent.h"
 
-namespace cheats {
+namespace cheat {
 
-    class RadarESP {
+    class RadarESP : public Cheat {
 
     public:
 
         RadarESP(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
-                baseAddress{ baseAddress },
-                pPlayer{ pPlayer },
-                logger{ logger },
-                mem{ mem } {
+                Cheat(_T("Radar ESP"), baseAddress, mem, logger),
+                pPlayer{ pPlayer } {
             originalRadarNopBytes = nullptr;
         }
 
-        ~RadarESP() {
+        ~RadarESP() override {
             delete[] originalRadarNopBytes;
         }
 
-        bool toggleRadarESP(bool enabled);
+        bool toggle(bool enabled) override;
 
     private:
 
         static const int NOP_LENGTH = 25;
 
-        const uintptr_t baseAddress;
         playerent* pPlayer;
-        const mem::Mem& mem;
-        const logging::Logger& logger;
         BYTE* originalRadarNopBytes;
 
     };

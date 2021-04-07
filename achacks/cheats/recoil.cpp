@@ -1,6 +1,6 @@
 #include "recoil.h"
 
-bool cheats::Recoil::toggleNoRecoil(const bool enabled) {
+bool cheat::Recoil::toggle(const bool enabled) {
 
     if (enabled) {
         originalRecoilNopBytes = new BYTE[RECOIL_NOP_LENGTH];

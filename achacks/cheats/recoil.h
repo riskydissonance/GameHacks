@@ -1,33 +1,29 @@
 #pragma once
 
+#include <cheat/cheat.h>
 #include "../reclass/playerent.h"
 
-namespace cheats {
+namespace cheat {
 
     static const int RECOIL_NOP_LENGTH = 10;
 
-    class Recoil {
+    class Recoil : public Cheat {
 
     public:
         Recoil(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
-                baseAddress{ baseAddress },
-                pPlayer{ pPlayer },
-                logger{ logger },
-                mem{ mem } {
+                Cheat(_T("No recoil"), baseAddress, mem, logger),
+                pPlayer{ pPlayer } {
             originalRecoilNopBytes = nullptr;
         }
 
-        ~Recoil() {
+        ~Recoil() override {
             delete[] originalRecoilNopBytes;
         }
 
-        bool toggleNoRecoil(bool enabled);
+        bool toggle(bool enabled) override;
 
     private:
-        const uintptr_t baseAddress;
         playerent* pPlayer;
-        const mem::Mem& mem;
-        const logging::Logger& logger;
         BYTE* originalRecoilNopBytes;
 
     };

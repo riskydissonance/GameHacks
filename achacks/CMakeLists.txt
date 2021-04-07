@@ -28,8 +28,10 @@ set(sources
         cheats/ammo.h
         cheats/recoil.cpp
         cheats/recoil.h
-        cheats/movement.cpp
-        cheats/movement.h
+        cheats/fly.cpp
+        cheats/fly.h
+        cheats/noclip.cpp
+        cheats/noclip.h
         logging/chat.cpp
         logging/chat.h
         cheats/states/triggerbot.cpp

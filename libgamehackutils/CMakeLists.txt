@@ -13,7 +13,7 @@ set(sources
         state/statemachine.h
         state/state.h
         maths/vector.h
-        maths/geometry.h)
+        maths/geometry.h cheat/cheat.h cheat/cheatlist.cpp cheat/cheatlist.h)
 
 add_library(libgamehackutils STATIC
         ${sources}

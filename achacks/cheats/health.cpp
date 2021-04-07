@@ -1,6 +1,6 @@
 #include "health.h"
 
-bool cheats::Health::toggleInfiniteHealth(const bool enabled) {
+bool cheat::Health::toggle(const bool enabled) {
 
     const auto hookAddress = baseAddress + HEALTH_HOOK_OFFSET;
 

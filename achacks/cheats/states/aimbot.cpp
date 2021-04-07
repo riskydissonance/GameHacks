@@ -6,8 +6,12 @@
  * x 0 -> 360
  *
  */
-
 bool cheats::states::AimBotState::condition() {
+
+    if(!entityList){
+        entityList = (playerent**) *pEntList;
+        return true;
+    }
 
     if(!(GetAsyncKeyState(VK_LBUTTON) & 01000'0000)){ // Is mouse left click held down
         return true;
@@ -59,17 +63,5 @@ bool cheats::states::AimBotState::reach() {
 }
 
 bool cheats::states::AimBotState::reached() {
-    return true;
-}
-
-
-bool cheats::states::AimBot::toggleAimBot(bool enabled) {
-    if (enabled) {
-        aimBotState = new AimBotState(baseAddress, pPlayer, mem, logger);
-        stateMachine.registerState(aimBotState);
-    } else {
-        stateMachine.unregisterState(aimBotState);
-        delete aimBotState;
-    }
     return true;
 }

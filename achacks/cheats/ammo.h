@@ -1,38 +1,33 @@
 #pragma once
 
+#include <cheat/cheat.h>
 #include "../reclass/playerent.h"
 
+namespace cheat {
 
-namespace cheats {
-
-    class Ammo {
+    class Ammo : public Cheat {
 
     public:
 
         Ammo(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
-                baseAddress{ baseAddress },
-                pPlayer{ pPlayer },
-                logger{ logger },
-                mem{ mem } {
+                Cheat(_T("Infinite Ammo"), baseAddress, mem, logger),
+                pPlayer{ pPlayer }{
             originalAmmoDecrementBytes = nullptr;
             originalGrenadeDecrementBytes = nullptr;
         }
 
-        ~Ammo() {
+        ~Ammo() override {
             delete[] originalAmmoDecrementBytes;
             delete[] originalGrenadeDecrementBytes;
         }
 
-        bool toggleInfiniteAmmo(bool enabled);
+        bool toggle(bool enabled) override;
 
     private:
 
         static const int NOP_LENGTH = 2;
 
-        const uintptr_t baseAddress;
         playerent* pPlayer;
-        const mem::Mem& mem;
-        const logging::Logger& logger;
         BYTE* originalAmmoDecrementBytes;
         BYTE* originalGrenadeDecrementBytes;
 

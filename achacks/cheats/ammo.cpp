@@ -1,6 +1,6 @@
 #include "ammo.h"
 
-bool cheats::Ammo::toggleInfiniteAmmo(const bool enabled) {
+bool cheat::Ammo::toggle(const bool enabled) {
 
     const auto ammoDecrementAddress = baseAddress + AMMO_NOP_OFFSET;
     logger.debug_log(_T("[*] Ammo decrement address at 0x%p"), ammoDecrementAddress);
