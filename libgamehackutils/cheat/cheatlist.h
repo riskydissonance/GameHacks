@@ -26,8 +26,18 @@ namespace cheat {
             }
         };
 
-        void registerCheat(KEY, Cheat* state);
+        /**
+         * Registers the cheat in the cheat list.
+         *
+         * @param cheat - the cheat to register. Resource cleanup of the cheat is handled by this cheat list class.
+         */
+        void registerCheat(KEY, Cheat* cheat);
 
+        /**
+         * Toggles the cheats.
+         *
+         * @param toggleKey - The VK key to toggle, or NULL to turn all keys off.
+         */
         void toggle(KEY toggleKey);
 
     private:

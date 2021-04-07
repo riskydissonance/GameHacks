@@ -26,10 +26,20 @@ namespace state {
             }
         };
 
+        /**
+         * Registers the state in the state machine.
+         *
+         * @param state - the state to register. Resource cleanup of the state is handled by this state machine class.
+         */
         void registerState(KEY, State* state);
 
         void incrementState();
 
+        /**
+         * Toggles the cheats.
+         *
+         * @param toggleKey - The VK key to toggle, or NULL to turn all keys off.
+         */
         void toggle(KEY toggleKey);
 
     private:
