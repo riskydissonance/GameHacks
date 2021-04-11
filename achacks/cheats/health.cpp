@@ -16,7 +16,7 @@ bool cheat::Health::toggle(const bool enabled) {
             originalHealthHookBytes = new BYTE[NEAR_JMP_INSTRUCTION_LENGTH]{};
         }
 
-        if (mem.hookFunc(hookAddress, (uintptr_t) &infiniteHealthHook, originalHealthHookBytes)) {
+        if (mem.hookFunc(hookAddress, (uintptr_t) &infiniteHealthHook, originalHealthHookBytes, NEAR_JMP_INSTRUCTION_LENGTH)) {
             logger.debug_log(_T("[+] Set Infinite Health hook"));
             return true;
         }

@@ -29,7 +29,7 @@ set(sources
         cheats/radar.cpp
         cheats/radar.h
         cheats/states/aimbot.cpp
-        cheats/states/aimbot.h)
+        cheats/states/aimbot.h cheats/esp.cpp cheats/esp.h)
 
 set_source_files_properties(${asm_sources} PROPERTIES LANGUAGE ASM_NASM)
 

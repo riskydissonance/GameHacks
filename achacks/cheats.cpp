@@ -6,6 +6,7 @@
 #include "cheats/ammo.h"
 #include "cheats/recoil.h"
 #include "cheats/fly.h"
+#include "cheats/esp.h"
 #include "cheats/noclip.h"
 #include "cheats/radar.h"
 #include "cheats/states/triggerbot.h"
@@ -14,14 +15,14 @@
 
 void __stdcall cheatLoop(const HMODULE hModule) {
 
-    native::NativeFunctions* nativeFunctions = new native::WinAPI{};
-    auto mem = new mem::Mem{ *nativeFunctions };
-
     uintptr_t baseAddress = getBaseAddress();
 
     logging::Logger* logger = new logging::ACChatLogger{ baseAddress };
     logger->info_log(_T("[+] Cheat DLL Loaded"));
     logger->debug_log(_T("[*] Main module base address at 0x%p"), baseAddress);
+
+    native::NativeFunctions* nativeFunctions = new native::WinAPI{};
+    auto mem = new mem::Mem{ *logger, *nativeFunctions };
 
     const auto playerAddress = (uintptr_t*) (baseAddress + PLAYER_POINTER_OFFSET);
 
@@ -40,6 +41,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     cheatList->registerCheat(VK_INSERT, new cheat::Recoil{ baseAddress, pPlayer, *mem, *logger });
     cheatList->registerCheat(VK_INSERT, new cheat::Fly{ baseAddress, pPlayer, *mem, *logger });
     cheatList->registerCheat(VK_INSERT, new cheat::RadarESP{ baseAddress, pPlayer, *mem, *logger });
+    cheatList->registerCheat(VK_INSERT, new cheat::ESP{ baseAddress, pPlayer, *mem, *logger });
     cheatList->registerCheat(VK_HOME, new cheat::NoClip{ baseAddress, pPlayer, *mem, *logger });
 
     auto stateMachine = new state::StateMachine{ *logger };

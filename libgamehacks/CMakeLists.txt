@@ -34,7 +34,9 @@ set(sources
         cheat/cheat.h
         cheat/cheatlist.cpp
         cheat/cheatlist.h
-        utils/utils.h)
+        utils/utils.h
+        3d/opengl/opengl.h
+        3d/opengl/opengl.cpp)
 
 set_source_files_properties(${asm_sources} PROPERTIES LANGUAGE ASM_NASM)
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <logging/logger.h>
 #include "native/native.h"
 
 namespace mem {
@@ -7,7 +8,9 @@ namespace mem {
     class Mem {
 
     public:
-        explicit Mem(native::NativeFunctions& nativeFunctions) : nativeFunctions{ nativeFunctions } { };
+        explicit Mem(logging::Logger& logger, native::NativeFunctions& nativeFunctions) :
+                logger{ logger },
+                nativeFunctions{ nativeFunctions } { };
 
         ~Mem() = default;
 
@@ -23,10 +26,11 @@ namespace mem {
 
         bool nop(uintptr_t targetAddress, size_t length, BYTE* originalBytes) const;
 
-        bool hookFunc(uintptr_t hookAddress, uintptr_t funcAddress, BYTE* originalBytes) const;
+        bool hookFunc(uintptr_t hookAddress, uintptr_t funcAddress, BYTE* originalBytes, size_t overwriteLength) const;
 
     private:
-        native::NativeFunctions& nativeFunctions;
+        const native::NativeFunctions& nativeFunctions;
+        const logging::Logger& logger;
     };
 
 
