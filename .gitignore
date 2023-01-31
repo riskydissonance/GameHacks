@@ -40,3 +40,11 @@ Release/
 cmake-build-*/
 
 .idea/
+CMakeCache.txt
+*.cmake
+compile_commands.json
+*.vcxproj*
+*.ninja
+*.dir/
+build/
+.cache

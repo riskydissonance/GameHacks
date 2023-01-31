@@ -1,8 +1,8 @@
 section text
 
-global ?getBaseAddress@@YAIXZ
+global getBaseAddress
 
-?getBaseAddress@@YAIXZ:
+getBaseAddress:
     mov eax, dword [fs:0x30]
     mov eax, dword [ds:rax+0x8]
     ret
