@@ -5,6 +5,7 @@
 
 
 // Created with ReClass.NET 1.2 by KN4CK3R
+/*
 
 class playerent {
 public:
@@ -110,6 +111,84 @@ public:
     char pad_0339[59]; //0x0339
     class inventory* Inventory; //0x0374
 }; //Size: 0x0378
+
+*/
+
+// Created with ReClass.NET 1.2 by KN4CK3R
+
+class playerent
+{
+public:
+	void *N0000004F; //0x0000
+	Vector3 HeadPosition; //0x0004
+	Vector3 HeadVelocity; //0x0010
+	int32_t XIntVelocity; //0x001C
+	int32_t YIntVelocity; //0x0020
+	int32_t ZIntVelocity; //0x0024
+	Vector3 BodyPosition; //0x0028
+	Vector3 Facing; //0x0034
+	char pad_0040[29]; //0x0040
+	bool Grounded; //0x005D
+	char pad_005E[7]; //0x005E
+	bool Static; //0x0065
+	char pad_0066[14]; //0x0066
+	int8_t ForwardBackward; //0x0074
+	int8_t LeftRight; //0x0075
+	int8_t PlayerState; //0x0076
+	int8_t Invisible; //0x0077
+	float CrouchVelocity; //0x0078
+	char pad_007C[4]; //0x007C
+	bool LeftPressed; //0x0080
+	bool RightPressed; //0x0081
+	bool ForwardPressed; //0x0082
+	bool BackwardPressed; //0x0083
+	char pad_0084[104]; //0x0084
+	int32_t Health; //0x00EC
+	int32_t Armour; //0x00F0
+	char pad_00F4[12]; //0x00F4
+	int32_t Akimbo; //0x0100
+	char pad_0104[4]; //0x0104
+	int32_t SecondaryAmmoReserve; //0x0108
+	char pad_010C[16]; //0x010C
+	int32_t PrimaryAmmoReserve; //0x011C
+	char pad_0120[4]; //0x0120
+	int32_t AkimboAmmoReserve; //0x0124
+	char pad_0128[4]; //0x0128
+	int32_t SecondaryAmmo; //0x012C
+	char pad_0130[16]; //0x0130
+	int32_t PrimaryAmmo; //0x0140
+	int32_t NumberOfGrenades; //0x0144
+	int32_t AkimboAmmo; //0x0148
+	int32_t KnifeRecoilVelocity; //0x014C
+	int32_t PistolRecoilVelocity; //0x0150
+	char pad_0154[16]; //0x0154
+	int32_t PrimaryRecoilVelocity; //0x0164
+	int32_t GrenadeRecoilVelocity; //0x0168
+	char pad_016C[4]; //0x016C
+	int32_t KnifeSwipes; //0x0170
+	int32_t SecondaryShotsFired; //0x0174
+	char pad_0178[16]; //0x0178
+	int32_t PrimaryShotsFired; //0x0188
+	int32_t GrenadesThrown; //0x018C
+	char pad_0190[72]; //0x0190
+	int32_t Respawns; //0x01D8
+	int32_t KillsThisLife; //0x01DC
+	int32_t FlagScore; //0x01E0
+	int32_t Deaths; //0x01E4
+	int32_t Teamkills; //0x01E8
+	char pad_01EC[24]; //0x01EC
+	bool Firing; //0x0204
+	char Name[16]; //0x0205
+	char pad_0215[247]; //0x0215
+	int32_t Team; //0x030C
+	int32_t WeaponChanging; //0x0310
+	char pad_0314[8]; //0x0314
+	int8_t Fly; //0x031C
+	int8_t N000004EB; //0x031D
+	char pad_031E[1]; //0x031E
+	bool MiniMapOff; //0x031F
+	char pad_0320[3412]; //0x0320
+}; //Size: 0x1074
 
 class inventory {
 public:

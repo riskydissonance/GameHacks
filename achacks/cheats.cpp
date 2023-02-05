@@ -15,16 +15,16 @@
 
 void __stdcall cheatLoop(const HMODULE hModule) {
 
-    uintptr_t baseAddress = getBaseAddress();
 
-    logging::Logger* logger = new logging::ACChatLogger{ baseAddress };
+    logging::Logger* logger = new logging::DebugLogger{  };
     logger->info_log(_T("[+] Cheat DLL Loaded"));
+    uintptr_t baseAddress = getBaseAddress();
     logger->debug_log(_T("[*] Main module base address at 0x%p"), baseAddress);
 
     native::NativeFunctions* nativeFunctions = new native::WinAPI{};
     auto mem = new mem::Mem{ *logger, *nativeFunctions };
 
-    const auto playerAddress = (uintptr_t*) (baseAddress + PLAYER_POINTER_OFFSET);
+    const auto playerAddress = *(uintptr_t**) (baseAddress + PLAYER_POINTER_OFFSET);
 
     auto pPlayer = (playerent*)(*playerAddress);
 
@@ -36,42 +36,42 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     logger->debug_log(_T("[*] Player at: 0x%p"), pPlayer);
 
     auto cheatList = new cheat::CheatList{ *logger };
-    cheatList->registerCheat(VK_INSERT, new cheat::Health{ baseAddress, pPlayer, *mem, *logger });
+    //cheatList->registerCheat(VK_INSERT, new cheat::Health{ baseAddress, pPlayer, *mem, *logger });
     cheatList->registerCheat(VK_INSERT, new cheat::Ammo{ baseAddress, pPlayer, *mem, *logger });
-    cheatList->registerCheat(VK_INSERT, new cheat::Recoil{ baseAddress, pPlayer, *mem, *logger });
-    cheatList->registerCheat(VK_INSERT, new cheat::Fly{ baseAddress, pPlayer, *mem, *logger });
-    cheatList->registerCheat(VK_INSERT, new cheat::RadarESP{ baseAddress, pPlayer, *mem, *logger });
-    cheatList->registerCheat(VK_INSERT, new cheat::ESP{ baseAddress, pPlayer, *mem, *logger });
-    cheatList->registerCheat(VK_HOME, new cheat::NoClip{ baseAddress, pPlayer, *mem, *logger });
+    //cheatList->registerCheat(VK_INSERT, new cheat::Recoil{ baseAddress, pPlayer, *mem, *logger });
+    //cheatList->registerCheat(VK_INSERT, new cheat::Fly{ baseAddress, pPlayer, *mem, *logger });
+    //cheatList->registerCheat(VK_INSERT, new cheat::RadarESP{ baseAddress, pPlayer, *mem, *logger });
+    //cheatList->registerCheat(VK_INSERT, new cheat::ESP{ baseAddress, pPlayer, *mem, *logger });
+    //cheatList->registerCheat(VK_HOME, new cheat::NoClip{ baseAddress, pPlayer, *mem, *logger });
 
-    auto stateMachine = new state::StateMachine{ *logger };
-    stateMachine->registerState(VK_INSERT, new cheats::states::TriggerBotState{ baseAddress, pPlayer, *mem, *logger });
-    stateMachine->registerState(VK_F2, new cheats::states::AimBotState{ baseAddress, pPlayer, *mem, *logger });
+    //auto stateMachine = new state::StateMachine{ *logger };
+    //stateMachine->registerState(VK_INSERT, new cheats::states::TriggerBotState{ baseAddress, pPlayer, *mem, *logger });
+    //stateMachine->registerState(VK_F2, new cheats::states::AimBotState{ baseAddress, pPlayer, *mem, *logger });
 
     while (true) {
 
         if (GetAsyncKeyState(VK_INSERT) & 0x01) {
             cheatList->toggle(VK_INSERT);
-            stateMachine->toggle(VK_INSERT);
+           // stateMachine->toggle(VK_INSERT);
         }
 
         if (GetAsyncKeyState(VK_HOME) & 0x01) {
             cheatList->toggle(VK_HOME);
-            stateMachine->toggle(VK_HOME);
+            //stateMachine->toggle(VK_HOME);
         }
 
         if (GetAsyncKeyState(VK_F2) & 0x01) {
             cheatList->toggle(VK_F2);
-            stateMachine->toggle(VK_F2);
+           //stateMachine->toggle(VK_F2);
         }
 
         if (GetAsyncKeyState(VK_END) & 0x01) {
             cheatList->toggle(NULL);
-            stateMachine->toggle(NULL);
+            //stateMachine->toggle(NULL);
             break;
         }
 
-        stateMachine->incrementState();
+        //stateMachine->incrementState();
 
         Sleep(10); // TODO hook game loop so don't have to sleep
     }
@@ -79,7 +79,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     logger->info_log(_T("[*] Disabling cheats and unloading DLL"));
 
     delete cheatList;
-    delete stateMachine;
+   // delete stateMachine;
     delete mem;
     delete nativeFunctions;
     logger->debug_log(_T("[*] Done, the logger is the last thing to go... goodbye..."));
