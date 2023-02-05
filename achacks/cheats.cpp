@@ -31,7 +31,7 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     while (!pPlayer) {
         pPlayer = (playerent*)(*playerAddress);
         Sleep(1000);
-    }
+    }net
 
     logger->debug_log(_T("[*] Player at: 0x%p"), pPlayer);
 

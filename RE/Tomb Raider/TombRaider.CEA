@@ -1,0 +1,68 @@
+{ Game   : TombRaider.exe
+  Version: 
+  Date   : 2023-01-29
+  Author : robjb
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(INJECT,TombRaider.exe,89 46 18 5E 8B E5 5D C2 04 00 CC) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+  cmp [esi+3c], 1
+  je return
+
+code:
+  mov [esi+18],eax
+  pop esi
+  mov esp,ebp
+  jmp return
+
+INJECT:
+  jmp newmem
+  nop
+return:
+registersymbol(INJECT)
+
+[DISABLE]
+
+INJECT:
+  db 89 46 18 5E 8B E5
+
+unregistersymbol(INJECT)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: TombRaider.exe+1D7480
+
+TombRaider.exe+1D746A: 75 09           - jne TombRaider.exe+1D7475
+TombRaider.exe+1D746C: 57              - push edi
+TombRaider.exe+1D746D: E8 9E 88 FD FF  - call TombRaider.exe+1AFD10
+TombRaider.exe+1D7472: 89 7E 18        - mov [esi+18],edi
+TombRaider.exe+1D7475: 5F              - pop edi
+TombRaider.exe+1D7476: 5E              - pop esi
+TombRaider.exe+1D7477: 8B E5           - mov esp,ebp
+TombRaider.exe+1D7479: 5D              - pop ebp
+TombRaider.exe+1D747A: C2 04 00        - ret 0004
+TombRaider.exe+1D747D: 8B 45 08        - mov eax,[ebp+08]
+// ---------- INJECTING HERE ----------
+TombRaider.exe+1D7480: 89 46 18        - mov [esi+18],eax
+// ---------- DONE INJECTING  ----------
+TombRaider.exe+1D7483: 5E              - pop esi
+TombRaider.exe+1D7484: 8B E5           - mov esp,ebp
+TombRaider.exe+1D7486: 5D              - pop ebp
+TombRaider.exe+1D7487: C2 04 00        - ret 0004
+TombRaider.exe+1D748A: CC              - int 3 
+TombRaider.exe+1D748B: CC              - int 3 
+TombRaider.exe+1D748C: CC              - int 3 
+TombRaider.exe+1D748D: CC              - int 3 
+TombRaider.exe+1D748E: CC              - int 3 
+TombRaider.exe+1D748F: CC              - int 3 
+}
