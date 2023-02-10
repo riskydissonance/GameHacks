@@ -31,14 +31,14 @@ void __stdcall cheatLoop(const HMODULE hModule) {
     while (!pPlayer) {
         pPlayer = (playerent*)(*playerAddress);
         Sleep(1000);
-    }net
+    }
 
     logger->debug_log(_T("[*] Player at: 0x%p"), pPlayer);
 
     auto cheatList = new cheat::CheatList{ *logger };
     cheatList->registerCheat(VK_INSERT, new cheat::Health{ baseAddress, pPlayer, *mem, *logger });
     cheatList->registerCheat(VK_INSERT, new cheat::Ammo{ baseAddress, pPlayer, *mem, *logger });
-    //cheatList->registerCheat(VK_INSERT, new cheat::Recoil{ baseAddress, pPlayer, *mem, *logger });
+    cheatList->registerCheat(VK_INSERT, new cheat::Recoil{ baseAddress, pPlayer, *mem, *logger });
     //cheatList->registerCheat(VK_INSERT, new cheat::Fly{ baseAddress, pPlayer, *mem, *logger });
     //cheatList->registerCheat(VK_INSERT, new cheat::RadarESP{ baseAddress, pPlayer, *mem, *logger });
     //cheatList->registerCheat(VK_INSERT, new cheat::ESP{ baseAddress, pPlayer, *mem, *logger });
