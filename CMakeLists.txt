@@ -16,5 +16,6 @@ if (CMAKE_ARCH STREQUAL "x64")
 else ()
 
     add_subdirectory(achacks)
+    add_subdirectory(pwnadventure3)
 
 endif ()

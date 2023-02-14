@@ -61,7 +61,7 @@ bool mem::Mem::nop(const uintptr_t targetAddress, const size_t length, BYTE* ori
     return true;
 }
 
-bool mem::Mem::hookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress, BYTE* originalBytes, const size_t overwriteLength) const {
+bool mem::Mem::hookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress, BYTE* originalBytes, const size_t overwriteLength, const bool jmpNotCall) const {
 
     if(overwriteLength < NEAR_JMP_INSTRUCTION_LENGTH){
         logger.debug_log("[-] Unable to hook function as hook length is less than jmp length (%d): %d", NEAR_JMP_INSTRUCTION_LENGTH, overwriteLength);
@@ -71,6 +71,10 @@ bool mem::Mem::hookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress
     auto relativeOffset = (uintptr_t) funcAddress - (hookAddress + NEAR_JMP_INSTRUCTION_LENGTH);
     // Create space for address with null bytes
     std::vector<BYTE> hookBytes = { 0xe8, 0x00, 0x00, 0x00, 0x00 };
+
+    if (jmpNotCall){
+        hookBytes = { 0xe9, 0x00, 0x00, 0x00, 0x00 };
+    }
 
     for(int i = NEAR_JMP_INSTRUCTION_LENGTH; i < overwriteLength; i++){
         hookBytes.push_back(0x90);
@@ -83,4 +87,34 @@ bool mem::Mem::hookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress
 
     // Write the patched hook to the hook address
     return this->writeMem(hookAddress, &hookBytes[0], overwriteLength, originalBytes);
+}
+
+bool mem::Mem::patchHookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress, const BYTE* originalBytes, const size_t overwriteLength, const bool jmpNotCall) const {
+
+    if((overwriteLength + NEAR_JMP_INSTRUCTION_LENGTH)  > HOOK_NOP_PLACEHOLDER_LENGTH){
+        return false;
+    }
+    BYTE originalHookBytes[15]{};
+    std::vector<BYTE> hookBytes = { 0xe8, 0x00, 0x00, 0x00, 0x00 };
+
+    if (jmpNotCall){
+        hookBytes = { 0xe9, 0x00, 0x00, 0x00, 0x00 };
+    }
+
+    // Patch the null bytes with the relative offset from the hook point to the original function
+    auto relativeOffset = (uintptr_t) hookAddress - (funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + overwriteLength);
+    if (!this->writeMem(((uintptr_t) &hookBytes[0]) + 1, (const BYTE*) &relativeOffset, NEAR_JUMP_OPERAND_LENGTH, originalHookBytes)) {
+        return false;
+    }
+
+    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH, (BYTE*)originalBytes, overwriteLength, originalHookBytes)){
+        return false;
+    }
+
+    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + overwriteLength,(BYTE*)&hookBytes[0], NEAR_JMP_INSTRUCTION_LENGTH, originalHookBytes)){
+        return false;
+    }
+
+    return true;
+
 }

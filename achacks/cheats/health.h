@@ -13,18 +13,18 @@ namespace cheat {
         Health(const uintptr_t& baseAddress, playerent* pPlayer, const mem::Mem& mem, const logging::Logger& logger) :
                 Cheat(_T("Infinite Health"), baseAddress, mem, logger),
                 pPlayer{ pPlayer } {
-            originalHealthHookBytes = nullptr;
+            originalFuncBytes = nullptr;
         }
 
         ~Health() override {
-            delete[] originalHealthHookBytes;
+            delete[] originalFuncBytes;
         }
 
         bool toggle(bool enabled) override;
 
     private:
         playerent* pPlayer;
-        BYTE* originalHealthHookBytes;
+        BYTE* originalFuncBytes;
 
     };
 }
