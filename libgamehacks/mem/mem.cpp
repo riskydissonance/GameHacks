@@ -102,16 +102,18 @@ bool mem::Mem::patchHookFunc(const uintptr_t hookAddress, const uintptr_t funcAd
     }
 
     // Patch the null bytes with the relative offset from the hook point to the original function
-    auto relativeOffset = (uintptr_t) hookAddress - (funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + overwriteLength);
+    auto relativeOffset = (uintptr_t) hookAddress - (funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + overwriteLength + PUSH_POP_REG_FLAGS_LENGTH);
     if (!this->writeMem(((uintptr_t) &hookBytes[0]) + 1, (const BYTE*) &relativeOffset, NEAR_JUMP_OPERAND_LENGTH, originalHookBytes)) {
         return false;
     }
 
-    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH, (BYTE*)originalBytes, overwriteLength, originalHookBytes)){
+    // Patch the hook with the original bytes before returning
+    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + PUSH_POP_REG_FLAGS_LENGTH, (BYTE*)originalBytes, overwriteLength, originalHookBytes)){
         return false;
     }
 
-    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + overwriteLength,(BYTE*)&hookBytes[0], NEAR_JMP_INSTRUCTION_LENGTH, originalHookBytes)){
+    // Patch the hook with the jmp back
+    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + PUSH_POP_REG_FLAGS_LENGTH + overwriteLength,(BYTE*)&hookBytes[0], NEAR_JMP_INSTRUCTION_LENGTH, originalHookBytes)){
         return false;
     }
 

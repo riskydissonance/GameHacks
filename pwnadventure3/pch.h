@@ -12,4 +12,5 @@
 #include "logging/logger.h"
 #include "constants.h"
 #include "offsets.h"
+
 #endif //PCH_H

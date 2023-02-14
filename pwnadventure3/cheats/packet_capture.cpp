@@ -1,19 +1,39 @@
 #include "packet_capture.h"
+#include <stdio.h>
 
 
-void __declspec(naked) displaySocketSend(uintptr_t thiz, BYTE buf[], int length) {
+void __cdecl displaySocketSend(BYTE buf[], int length) {
 
-    __asm {
-            int3
-            ret
-    }
+    char hex_buffer[(length * 2) + 1];
+    hex_buffer[length * 2] = 0;
+    for (int j = 0; j < length; j++)
+        sprintf(&hex_buffer[2 * j], "%02X", buf[j]);
 
+    TCHAR message[(length * 2) + 1 + 100];
+    wsprintf(message, _T("[Socket Send %d bytes] %s\n"), length, hex_buffer);
+
+    TCHAR prefixedMessage[(length * 2) + 1 + 100 + 15];
+    wsprintf(prefixedMessage, _T("[%s] %s\n"), CHEAT_NAME, message);
+
+    OutputDebugString(prefixedMessage);
 }
 
 
 void __declspec(naked) socketSendHook() {
     __asm {
+            sub esp, 60h
+            pushad
+            pushfd
+            mov eax, [esp+88h]
+            mov ecx, [esp+8ch]
+            push ecx
+            push eax
             call displaySocketSend
+            pop eax
+            pop eax
+            popfd
+            popad
+            add esp, 60h
             int3
             int3
             int3
