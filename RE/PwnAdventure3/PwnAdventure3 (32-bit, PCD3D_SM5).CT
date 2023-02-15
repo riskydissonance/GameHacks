@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CheatTable CheatEngineTableVersion="45">
-  <CheatEntries/>
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Mana1"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>0DC0F338</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Mana2"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>29DAD9D4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Health1"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>0DC0F334</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>36</ID>
+      <Description>"Health2"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>29DAD8D8</Address>
+    </CheatEntry>
+  </CheatEntries>
   <UserdefinedSymbols/>
 </CheatTable>

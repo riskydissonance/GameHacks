@@ -35,6 +35,7 @@ set(sources
         cheat/cheatlist.cpp
         cheat/cheatlist.h
         utils/utils.h
+        utils/utils.cpp
         3d/opengl/opengl.h
         3d/opengl/opengl.cpp)
 

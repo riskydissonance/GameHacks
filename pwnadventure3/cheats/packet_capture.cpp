@@ -1,23 +1,15 @@
 #include "packet_capture.h"
-#include <stdio.h>
+#include "utils/utils.h"
+#include <fstream>
+#include <iostream>
 
+std::ofstream out;
+static int packet = 0;
 
 void __cdecl displaySocketSend(BYTE buf[], int length) {
-
-    char hex_buffer[(length * 2) + 1];
-    hex_buffer[length * 2] = 0;
-    for (int j = 0; j < length; j++)
-        sprintf(&hex_buffer[2 * j], "%02X", buf[j]);
-
-    TCHAR message[(length * 2) + 1 + 100];
-    wsprintf(message, _T("[Socket Send %d bytes] %s\n"), length, hex_buffer);
-
-    TCHAR prefixedMessage[(length * 2) + 1 + 100 + 15];
-    wsprintf(prefixedMessage, _T("[%s] %s\n"), CHEAT_NAME, message);
-
-    OutputDebugString(prefixedMessage);
+    hexdump(packet, out, buf, length);
+    packet++;
 }
-
 
 void __declspec(naked) socketSendHook() {
     __asm {
@@ -62,6 +54,7 @@ bool cheat::PacketCapture::toggle(const bool enabled) {
     logger.debug_log(_T("[*] PacketCapture Hook function address at 0x%p"), &socketSendHook);
 
     if (enabled) {
+        out = std::ofstream("packets.txt");
         if (!originalFuncBytes) {
             originalFuncBytes = new BYTE[SOCKET_SEND_HOOK_LENGTH]{};
         }
@@ -84,6 +77,8 @@ bool cheat::PacketCapture::toggle(const bool enabled) {
     if (originalFuncBytes) {
         return mem.writeMem(hookAddress, originalFuncBytes, SOCKET_SEND_HOOK_LENGTH, nullptr);
     }
+
+    out.close();
 
     return true;
 }
