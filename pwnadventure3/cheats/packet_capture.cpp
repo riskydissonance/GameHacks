@@ -6,12 +6,25 @@
 std::ofstream out;
 static int packet = 0;
 
-void __cdecl displaySocketSend(BYTE buf[], int length) {
+void __cdecl handleSocketSend(BYTE buf[], int length) {
     hexdump(packet, 1, out, buf, length);
+    if(length == 22 && buf[0] == 'm' && buf[1] == 'v' && buf[2]){
+        hexdump(packet, 1, out, buf, length);
+        out << std::setw(8) << packet;
+        out << ' ';
+        out << std::setw(2) << 1;
+        out << ' ';
+        out << "mv ";
+        auto x = (int*)&buf[2];
+        auto y = (int*)&buf[6];
+        auto z = (int*)&buf[10];
+        out << "x: " << *x << " y: " << *y << " z: " << *z;
+        out << std::endl;
+    }
     packet++;
 }
 
-void __cdecl displaySocketRecv(BYTE buf[], int length) {
+void __cdecl handleSocketRecv(BYTE buf[], int length) {
     hexdump(packet, 2, out, buf, length);
     packet++;
 }
@@ -25,7 +38,7 @@ void __declspec(naked) socketSendHook() {
             mov ecx, [esp+8ch]
             push ecx
             push eax
-            call displaySocketSend
+            call handleSocketSend
             pop eax
             pop eax
             popfd
@@ -58,7 +71,7 @@ void __declspec(naked) socketRecvHook() {
             mov ecx, [esp+0x58]
             push ecx
             push eax
-            call displaySocketRecv
+            call handleSocketRecv
             pop eax
             pop eax
             popfd
