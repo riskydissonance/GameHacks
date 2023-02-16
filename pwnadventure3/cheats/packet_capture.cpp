@@ -98,7 +98,7 @@ bool cheat::PacketCapture::toggle(const bool enabled) {
 
     if (enabled) {
         out = std::ofstream("packets.txt");
-        // TODO patch recv
+
         if (!originalSendFuncBytes) {
             originalSendFuncBytes = new BYTE[SOCKET_SEND_HOOK_LENGTH]{};
         }
