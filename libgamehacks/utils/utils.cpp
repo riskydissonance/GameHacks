@@ -1,6 +1,6 @@
 #include <iomanip>
 
-void hexdump(const int counter, std::basic_ostream<char>& out, const BYTE data[], const int length){
+void hexdump(const int counter, const int type, std::basic_ostream<char>& out, const BYTE data[], const int length){
     out << std::hex << std::setfill('0');
     int j = 0;
     while (j < length)
@@ -16,6 +16,8 @@ void hexdump(const int counter, std::basic_ostream<char>& out, const BYTE data[]
         if( nread == 0 ) break;
 
         out << std::setw(8) << counter;
+        out << ' ';
+        out << std::setw(2) << type;
 
         for( int i = 0; i < 16; i++ )
         {

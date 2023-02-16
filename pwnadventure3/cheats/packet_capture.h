@@ -9,17 +9,20 @@ namespace cheat {
     public:
         PacketCapture(const uintptr_t& baseAddress, const mem::Mem& mem, const logging::Logger& logger) :
                 Cheat(_T("Packet Capture"), baseAddress, mem, logger) {
-            originalFuncBytes = nullptr;
+            originalSendFuncBytes = nullptr;
+            originalRecvFuncBytes = nullptr;
         }
 
         ~PacketCapture() override {
-            delete[] originalFuncBytes;
+            delete[] originalSendFuncBytes;
+            delete[] originalRecvFuncBytes;
         }
 
         bool toggle(bool enabled) override;
 
     private:
-        BYTE* originalFuncBytes;
+        BYTE* originalSendFuncBytes;
+        BYTE* originalRecvFuncBytes;
 
     };
 }

@@ -89,7 +89,7 @@ bool mem::Mem::hookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress
     return this->writeMem(hookAddress, &hookBytes[0], overwriteLength, originalBytes);
 }
 
-bool mem::Mem::patchHookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress, const BYTE* originalBytes, const size_t overwriteLength, const bool jmpNotCall) const {
+bool mem::Mem::patchHookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress, const BYTE* originalBytes, const size_t overwriteLength, const bool jmpNotCall, const int hookLength) const {
 
     if((overwriteLength + NEAR_JMP_INSTRUCTION_LENGTH)  > HOOK_NOP_PLACEHOLDER_LENGTH){
         return false;
@@ -102,18 +102,18 @@ bool mem::Mem::patchHookFunc(const uintptr_t hookAddress, const uintptr_t funcAd
     }
 
     // Patch the null bytes with the relative offset from the hook point to the original function
-    auto relativeOffset = (uintptr_t) hookAddress - (funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + overwriteLength + PUSH_POP_REG_FLAGS_LENGTH);
+    auto relativeOffset = (uintptr_t) hookAddress - (funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + overwriteLength + hookLength);
     if (!this->writeMem(((uintptr_t) &hookBytes[0]) + 1, (const BYTE*) &relativeOffset, NEAR_JUMP_OPERAND_LENGTH, originalHookBytes)) {
         return false;
     }
 
     // Patch the hook with the original bytes before returning
-    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + PUSH_POP_REG_FLAGS_LENGTH, (BYTE*)originalBytes, overwriteLength, originalHookBytes)){
+    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + hookLength, (BYTE*)originalBytes, overwriteLength, originalHookBytes)){
         return false;
     }
 
     // Patch the hook with the jmp back
-    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + PUSH_POP_REG_FLAGS_LENGTH + overwriteLength,(BYTE*)&hookBytes[0], NEAR_JMP_INSTRUCTION_LENGTH, originalHookBytes)){
+    if(!this->writeMem((uintptr_t)funcAddress + NEAR_JMP_INSTRUCTION_LENGTH + hookLength + overwriteLength,(BYTE*)&hookBytes[0], NEAR_JMP_INSTRUCTION_LENGTH, originalHookBytes)){
         return false;
     }
 

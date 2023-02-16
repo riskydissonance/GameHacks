@@ -7,4 +7,4 @@
 
 extern "C" uintptr_t __cdecl getBaseAddress();
 
-void hexdump(const int counter, std::basic_ostream<char>& outStream, const BYTE data[], const int length);
+void hexdump(const int counter, const int type, std::basic_ostream<char>& outStream, const BYTE data[], const int length);

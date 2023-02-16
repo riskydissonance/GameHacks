@@ -28,7 +28,7 @@ namespace mem {
 
         bool hookFunc(uintptr_t hookAddress, uintptr_t funcAddress, BYTE* originalBytes, size_t overwriteLength, const bool jmpNotCall) const;
 
-        bool patchHookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress, const BYTE* originalBytes, const size_t overwriteLength, const bool jmpNotCall) const;
+        bool patchHookFunc(const uintptr_t hookAddress, const uintptr_t funcAddress, const BYTE* originalBytes, const size_t overwriteLength, const bool jmpNotCall, const int hookLength) const;
 
     private:
         const native::NativeFunctions& nativeFunctions;
