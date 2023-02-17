@@ -5,19 +5,27 @@
 
 std::ofstream out;
 static int packet = 0;
+static bool teleported = false;
 
 void __cdecl handleSocketSend(BYTE buf[], int length) {
     hexdump(packet, 1, out, buf, length);
     if(length == 22 && buf[0] == 'm' && buf[1] == 'v' && buf[2]){
-        hexdump(packet, 1, out, buf, length);
+        auto x = (int*)&buf[2];
+        auto y = (int*)&buf[6];
+        auto z = (int*)&buf[10];
+        if(!teleported){
+            *x = 0xc72a8700;
+            *y = 0xc75a0c00;
+            *z = 0x43a10000;
+            //teleported = true;
+            out << "teleporting" << std::endl;
+        }
+        hexdump(packet, 3, out, buf, length);
         out << std::setw(8) << packet;
         out << ' ';
         out << std::setw(2) << 1;
         out << ' ';
         out << "mv ";
-        auto x = (int*)&buf[2];
-        auto y = (int*)&buf[6];
-        auto z = (int*)&buf[10];
         out << "x: " << *x << " y: " << *y << " z: " << *z;
         out << std::endl;
     }
@@ -29,6 +37,23 @@ void __cdecl handleSocketRecv(BYTE buf[], int length) {
     packet++;
 }
 
+/*
+ * Add some stack space to avoid overwriting any stack cookies etc.
+ *
+ * Save registers and flags.
+ *
+ * Move the two args we want (buffer and length) from their new location
+ * to the top of the stack so they appear as 'args' when we call handleSocketSend.
+ *
+ * Pop the 'args' back off after the call.
+ *
+ * Restore flags/and registers.
+ *
+ * Restore original stack location.
+ *
+ * int3s to be replaced with overwritten hook bytes and a jmp back to the
+ * hooked function.
+ */
 void __declspec(naked) socketSendHook() {
     __asm {
             sub esp, 60h
@@ -62,6 +87,14 @@ void __declspec(naked) socketSendHook() {
     }
 }
 
+/*
+ * As above except this time we're hooking instructions in the middle
+ * of the function after recv is called to see the received data.
+ *
+ * Because of that the original args to recv (buf, length) are actually
+ * 'above' the stack as they've been cleared, but they're still there in memory,
+ * which is why the stack locations for the args are 'inside' the stack space we make.
+ */
 void __declspec(naked) socketRecvHook() {
     __asm {
             sub esp, 60h
