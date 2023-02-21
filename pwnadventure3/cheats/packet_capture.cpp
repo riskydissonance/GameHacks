@@ -7,27 +7,44 @@ std::ofstream out;
 static int packet = 0;
 static bool teleported = false;
 
+struct __attribute__((__packed__)) move_packet {
+    char prefix[2];
+    unsigned int x;
+    unsigned int y;
+    unsigned int z;
+    unsigned short facing1;
+    unsigned short facing2;
+    unsigned short facing3;
+    unsigned char forwardBackward; //f 7f, b 81
+    unsigned char rightLeft; // r 7f l 81
+};
+
 void __cdecl handleSocketSend(BYTE buf[], int length) {
     hexdump(packet, 1, out, buf, length);
-    if(length == 22 && buf[0] == 'm' && buf[1] == 'v' && buf[2]){
-        auto x = (int*)&buf[2];
-        auto y = (int*)&buf[6];
-        auto z = (int*)&buf[10];
-        if(!teleported){
-            *x = 0xc72a8700;
-            *y = 0xc75a0c00;
-            *z = 0x43a10000;
-            //teleported = true;
-            out << "teleporting" << std::endl;
-        }
-        hexdump(packet, 3, out, buf, length);
+    auto mpacket = (move_packet*) buf;
+    if (length == 22 && buf[0] == 'm' && buf[1] == 'v' && buf[2]) {
+//        if(!teleported){
+//            mpacket->x = 0xc72a8700;
+//            mpacket->y= 0xc75a0c00;
+//            mpacket->z = 0x43a10000;
+//            //teleported = true;
+//            out << "teleporting" << std::endl;
+//        }
+//        hexdump(packet, 3, out, buf, length);
         out << std::setw(8) << packet;
         out << ' ';
         out << std::setw(2) << 1;
-        out << ' ';
-        out << "mv ";
-        out << "x: " << *x << " y: " << *y << " z: " << *z;
-        out << std::endl;
+        out << ' '
+            << "mv "
+            << "x: " << mpacket->x
+            << " y: " << mpacket->y
+            << " z: " << mpacket->z
+            << " facing1: " << mpacket->facing1
+            << " facing2: " << mpacket->facing2
+            << " facing3: " << mpacket->facing3
+            << " fb: " << +mpacket->forwardBackward
+            << " rl: " << +mpacket->rightLeft
+            << std::endl;
     }
     packet++;
 }
@@ -59,8 +76,8 @@ void __declspec(naked) socketSendHook() {
             sub esp, 60h
             pushad
             pushfd
-            mov eax, [esp+88h]
-            mov ecx, [esp+8ch]
+            mov eax,[esp+88h]
+            mov ecx,[esp+8ch]
             push ecx
             push eax
             call handleSocketSend
@@ -100,8 +117,8 @@ void __declspec(naked) socketRecvHook() {
             sub esp, 60h
             pushad
             pushfd
-            mov eax, [esp+0x54]
-            mov ecx, [esp+0x58]
+            mov eax,[esp+0x54]
+            mov ecx,[esp+0x58]
             push ecx
             push eax
             call handleSocketRecv
