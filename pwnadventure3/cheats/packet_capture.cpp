@@ -1,14 +1,11 @@
 #include "packet_capture.h"
 #include "utils/utils.h"
-#include <fstream>
-#include <iostream>
 
-std::ofstream out;
-static int packet = 0;
-static bool teleported = false;
+static int packet;
+static bool teleported;
 
 void __cdecl handleSocketSend(BYTE buf[], int length) {
-    hexdump(packet, 1, out, buf, length);
+    hexdump(packet, 1, std::cout, buf, length);
     if(length == 22 && buf[0] == 'm' && buf[1] == 'v' && buf[2]){
         auto x = (int*)&buf[2];
         auto y = (int*)&buf[6];
@@ -18,22 +15,22 @@ void __cdecl handleSocketSend(BYTE buf[], int length) {
             *y = 0xc75a0c00;
             *z = 0x43a10000;
             //teleported = true;
-            out << "teleporting" << std::endl;
+            std::cout << "teleporting" << std::endl;
         }
-        hexdump(packet, 3, out, buf, length);
-        out << std::setw(8) << packet;
-        out << ' ';
-        out << std::setw(2) << 1;
-        out << ' ';
-        out << "mv ";
-        out << "x: " << *x << " y: " << *y << " z: " << *z;
-        out << std::endl;
+        hexdump(packet, 3, std::cout, buf, length);
+        std::cout << std::setw(8) << packet;
+        std::cout << ' ';
+        std::cout << std::setw(2) << 1;
+        std::cout << ' ';
+        std::cout << "mv ";
+        std::cout << "x: " << *x << " y: " << *y << " z: " << *z;
+        std::cout << std::endl;
     }
     packet++;
 }
 
 void __cdecl handleSocketRecv(BYTE buf[], int length) {
-    hexdump(packet, 2, out, buf, length);
+    hexdump(packet, 2, std::cout, buf, length);
     packet++;
 }
 
@@ -132,7 +129,7 @@ bool cheat::PacketCapture::toggle(const bool enabled) {
 
     auto hGameLogic = GetModuleHandleA("GameLogic.dll");
 
-    const auto sendHookAddress = (uintptr_t) hGameLogic + SOCKET_SEND_HOOK_OFFSET;
+        const auto sendHookAddress = (uintptr_t) hGameLogic + SOCKET_SEND_HOOK_OFFSET;
     logger.debug_log(_T("[*] Socket send address: 0x%p"), sendHookAddress);
     logger.debug_log(_T("[*] PacketCapture Socket Send Hook address at 0x%p"), sendHookAddress);
     logger.debug_log(_T("[*] PacketCapture send Hook function address at 0x%p"), &socketSendHook);
@@ -143,7 +140,6 @@ bool cheat::PacketCapture::toggle(const bool enabled) {
     logger.debug_log(_T("[*] PacketCapture recv Hook function address at 0x%p"), &socketSendHook);
 
     if (enabled) {
-        out = std::ofstream("packets.txt");
 
         if (!originalSendFuncBytes) {
             originalSendFuncBytes = new BYTE[SOCKET_SEND_HOOK_LENGTH]{};
@@ -178,18 +174,17 @@ bool cheat::PacketCapture::toggle(const bool enabled) {
         }
 
         logger.debug_log(_T("[+] Patched recv hook func with return"));
-
         return true;
     }
 
     if (originalSendFuncBytes) {
-        return mem.writeMem(sendHookAddress, originalSendFuncBytes, SOCKET_SEND_HOOK_LENGTH, nullptr);
+        mem.writeMem(sendHookAddress, originalSendFuncBytes, SOCKET_SEND_HOOK_LENGTH, nullptr);
     }
 
     if (originalRecvFuncBytes) {
-        return mem.writeMem(recvHookAddress, originalRecvFuncBytes, SOCKET_RECV_HOOK_LENGTH, nullptr);
+        mem.writeMem(recvHookAddress, originalRecvFuncBytes, SOCKET_RECV_HOOK_LENGTH, nullptr);
     }
 
-    out.close();
+    //out.close();
     return true;
 }
