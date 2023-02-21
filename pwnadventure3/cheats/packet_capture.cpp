@@ -183,11 +183,11 @@ bool cheat::PacketCapture::toggle(const bool enabled) {
     }
 
     if (originalSendFuncBytes) {
-        return mem.writeMem(sendHookAddress, originalSendFuncBytes, SOCKET_SEND_HOOK_LENGTH, nullptr);
+        mem.writeMem(sendHookAddress, originalSendFuncBytes, SOCKET_SEND_HOOK_LENGTH, nullptr);
     }
 
     if (originalRecvFuncBytes) {
-        return mem.writeMem(recvHookAddress, originalRecvFuncBytes, SOCKET_RECV_HOOK_LENGTH, nullptr);
+        mem.writeMem(recvHookAddress, originalRecvFuncBytes, SOCKET_RECV_HOOK_LENGTH, nullptr);
     }
 
     out.close();
