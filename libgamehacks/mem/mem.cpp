@@ -20,6 +20,7 @@ T mem::Mem::writeMem(uintptr_t targetAddress, T newValue) const {
     memcpy(targetAddress, &newValue, sizeof(T));
 
     nativeFunctions.VirtualProtect((LPVOID) targetAddress, sizeof(T), oldProtect, nullptr);
+    FlushInstructionCache(CURRENT_PROCESS, (LPCVOID)targetAddress, sizeof(T));
 }
 
 bool mem::Mem::readMem(const uintptr_t targetAddress, const size_t length, BYTE* readBytes) const {
@@ -41,6 +42,7 @@ bool mem::Mem::writeMem(const uintptr_t targetAddress, const BYTE* bytes, const 
     memcpy((BYTE*) targetAddress, bytes, length);
 
     nativeFunctions.VirtualProtect((LPVOID) targetAddress, length, oldProtect, nullptr);
+    FlushInstructionCache(CURRENT_PROCESS, (LPCVOID)targetAddress, length);
     return true;
 }
 
@@ -58,6 +60,7 @@ bool mem::Mem::nop(const uintptr_t targetAddress, const size_t length, BYTE* ori
     memset((void*) targetAddress, 0x90, length);
 
     nativeFunctions.VirtualProtect((LPVOID) targetAddress, length, oldProtect, nullptr);
+    FlushInstructionCache(CURRENT_PROCESS, (LPCVOID) targetAddress, length);
     return true;
 }
 
